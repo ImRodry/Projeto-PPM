@@ -1,6 +1,7 @@
 import Types._
 
 import scala.annotation.tailrec
+import scala.io.Source
 
 object ZigZag {
   def randomChar(rand: MyRandom): (Char, MyRandom) = {
@@ -16,6 +17,16 @@ object ZigZag {
 
   @tailrec
   def setBoardWithWords(board: Board, words: List[String], positions: List[List[Coord2D]]): Board = {
+    @tailrec
+    def setWord(board: Board, word: String, position: List[Coord2D]): Board = {
+      position match {
+        case Nil => board
+        case (row, col) :: tail =>
+          val newBoard = fillOneCell(board, word.head, (row, col))
+          setWord(newBoard, word.tail, tail)
+      }
+    }
+
     words match {
       case Nil => board
       case word :: wordTail =>
@@ -25,15 +36,6 @@ object ZigZag {
             val newBoard = setWord(board, word, position)
             setBoardWithWords(newBoard, wordTail, positionTail)
         }
-    }
-  }
-
-  def setWord(board: Board, word: String, position: List[Coord2D]): Board = {
-    position match {
-      case Nil => board
-      case (row, col) :: tail =>
-        val newBoard = board.updated(row, board(row).updated(col, word.head))
-        setWord(newBoard, word.tail, tail)
     }
   }
 
@@ -58,6 +60,20 @@ object ZigZag {
     }
 
     fillBoard(board, r)
+  }
+
+  def readWordsAndPositions(filename: String): (List[String], List[List[Coord2D]]) = {
+    val src = Source.fromFile(filename)
+    val lines = src.getLines().toList
+    src.close()
+    val words = lines.zipWithIndex.collect { case (line, i) if i % 2 == 0 => line }
+    val positions = lines.zipWithIndex.collect { case (line, i) if i % 2 != 0 =>
+      line.split(" ").map(cord => {
+        val Array(row, col) = cord.split(",").map(_.toInt)
+        (row, col)
+      }).toList
+    }
+    (words, positions)
   }
 
   def main(args: Array[String]): Unit = {
