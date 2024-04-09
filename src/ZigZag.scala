@@ -4,17 +4,20 @@ import scala.annotation.tailrec
 import scala.io.Source
 
 object ZigZag {
+  // T1
   def randomChar(rand: MyRandom): (Char, MyRandom) = {
     val (n, nextRand) = rand.nextInt
-    val c = (n % 26 + 'A'.toInt).toChar
+    val c = (n.abs % 26 + 'A'.toInt).toChar
     (c, nextRand)
   }
 
+  // T2
   def fillOneCell(board: Board, letter: Char, coord: Coord2D): Board = {
     val (row, col) = coord
     board.updated(row, board(row).updated(col, letter))
   }
 
+  // T3
   @tailrec
   def setBoardWithWords(board: Board, words: List[String], positions: List[List[Coord2D]]): Board = {
     @tailrec
@@ -39,6 +42,7 @@ object ZigZag {
     }
   }
 
+  // T4
   def completeBoardRandomly(board: Board, r: MyRandom, f: MyRandom => (Char, MyRandom)): (Board, MyRandom) = {
     def fillRow(row: List[Char], r: MyRandom): (List[Char], MyRandom) = row match {
       case Nil => (Nil, r)
