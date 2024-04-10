@@ -39,8 +39,14 @@ object TextUI {
         case "1" =>
           runGame(Some(startGame())) // Continue running the game with the new board
         case "2" =>
-          selectWord()
-          runGame(board) // Continue running the game with the same board
+          board match {
+            case Some(b) =>
+              selectWord()
+              runGame(Some(b)) // Continue running the game with the same board
+            case _ =>
+              println("Erro: Não há jogo para selecionar uma palavra!")
+              runGame()
+              }
         case "3" =>
           board match {
             case Some(b) =>
@@ -48,7 +54,7 @@ object TextUI {
               printBoard(b)
               runGame(Some(b)) // Continue running the game with the same board
             case _ =>
-              println("Erro: Não há jogo para reiniciar.")
+              println("Erro: Não há jogo para reiniciar!")
               runGame()
           }
         case "4" =>
