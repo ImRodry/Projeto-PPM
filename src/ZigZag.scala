@@ -68,8 +68,8 @@ object ZigZag {
   }
 
   //T5
-  def checkWord(filename: String, word: String, start: Coord2D, direction: Direction): Boolean = {
-    val (words, positions) = ZigZag.readWordsAndPositions(filename)
+  def play(word: String, start: Coord2D, direction: Direction): Boolean = {
+    val (words, positions) = ZigZag.readWordsAndPositions("words.txt")
     val wordsAndPositions = words.zip(positions).toMap
 
     def getDirection(start: Coord2D, next: Coord2D): Direction = {
@@ -91,7 +91,7 @@ object ZigZag {
 
     wordsAndPositions.get(word) match {
       case Some(positions) =>
-        val wordDirection = getDirection(positions(0), positions(1))
+        val wordDirection = getDirection(positions.head, positions(1))
         positions.head == start && wordDirection == direction
       case _ => false
     }

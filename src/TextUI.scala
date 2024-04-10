@@ -18,14 +18,14 @@ object TextUI {
   }
 
   def selectWord(): Unit = {
-    val word = getInput("Digite a palavra que deseja selecionar")
-    val start = getInput("Digite a coordenada inicial no formato \"row,col\"")
+    val word = getInput("Digite a palavra que deseja selecionar").toUpperCase()
+    val start = getInput("Digite a coordenada inicial no formato \"row,col\"").split(",")
     val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
 
-    val startCoord = (start.split(",")(0).toInt, start.split(",")(1).toInt)
+    val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    if (ZigZag.checkWord("words.txt", word, startCoord, directionEnum)) {
+    if (ZigZag.play(word, startCoord, directionEnum)) {
       println("A palavra está correta!")
     } else {
       println("A palavra está incorreta!")
@@ -64,6 +64,6 @@ object TextUI {
           runGame(board) // Continue running the game with the same board
       }
     }
-    runGame() // Start running the game
+    runGame(Some(startGame())) // Start running the game
   }
 }
