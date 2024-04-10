@@ -40,8 +40,3 @@ object TextUI {
     println("Obrigado por jogar!")
   }
 }
-
-object Main extends App {
-  // Exemplo de uso da TUI
-  TextUI.main(args)
-}
