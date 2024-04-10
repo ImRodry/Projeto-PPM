@@ -1,5 +1,6 @@
 import Types._
 import ZigZag._
+import sun.security.util.Length
 
 import scala.util.Random
 
@@ -21,8 +22,8 @@ object Utils {
   }
 
   // Função para iniciar ou reiniciar o jogo
-  def startGame(): Board   = {
-    val board: Board = List.fill(5)(List.fill(5)('-')) // Tabuleiro vazio de 5x5
+  def startGame(width: Int, length: Int): Board   = {
+    val board: Board = List.fill(length)(List.fill(width)('-')) // Tabuleiro vazio de 5x5
     val (words, positions) = readWordsAndPositions("words.txt") // Lê as palavras e posições do arquivo
     val newBoard = setBoardWithWords(board, words, positions) // Coloca as palavras no tabuleiro
     val (randomizedBoard, _) = completeBoardRandomly(newBoard, MyRandom(Random.nextInt()), randomChar) // Completa o tabuleiro com caracteres aleatórios

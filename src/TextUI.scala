@@ -4,6 +4,9 @@ import Utils._
 import scala.io.StdIn.readLine
 
 object TextUI {
+  var boardWidth = 0
+  var boardLength = 0
+
   def mainMenu(): Unit = {
     println("Bem-vindo ao jogo de palavras cruzadas!")
     println("1. Selecionar palavra")
@@ -85,6 +88,13 @@ object TextUI {
           runGame(board) // Continue running the game with the same board
       }
     }
-    runGame(startGame()) // Start running the game
+    var asked = false
+    while (boardLength < 5 || boardWidth < 5) {
+      if (asked) println("Tamanho inválido! A largura e o comprimento do tabuleiro devem ser maiores ou iguais a 5.")
+      boardWidth = getInput("Insira o comprimento do tabuleiro").toInt
+      boardLength = getInput("Insira a largura do tabuleiro").toInt
+      asked = true
+    }
+    runGame(startGame(boardWidth, boardLength)) // Start running the game
   }
 }
