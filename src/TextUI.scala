@@ -6,10 +6,9 @@ import scala.io.StdIn.readLine
 object TextUI {
   def mainMenu(): Unit = {
     println("Bem-vindo ao jogo de palavras cruzadas!")
-    println("1. Iniciar novo jogo")
-    println("2. Selecionar palavra")
-    println("3. Reiniciar jogo")
-    println("4. Sair")
+    println("1. Selecionar palavra")
+    println("2. Reiniciar jogo")
+    println("3. Sair")
   }
 
   def getInput(prompt: String): String = {
@@ -33,37 +32,23 @@ object TextUI {
   }
 
   def main(args: Array[String]): Unit = {
-    def runGame(board: Option[Board] = None): Unit = {
+    def runGame(board: Board): Unit = {
       mainMenu()
       getInput("Escolha uma opção") match {
         case "1" =>
-          runGame(Some(startGame())) // Continue running the game with the new board
+          selectWord()
+          runGame(board) // Continue running the game with the same board
         case "2" =>
-          board match {
-            case Some(b) =>
-              selectWord()
-              runGame(Some(b)) // Continue running the game with the same board
-            case _ =>
-              println("Erro: Não há jogo para selecionar uma palavra!")
-              runGame()
-              }
+          println("Jogo reiniciado!")
+          printBoard(board)
+          runGame(board) // Continue running the game with the same board
         case "3" =>
-          board match {
-            case Some(b) =>
-              println("Jogo reiniciado!")
-              printBoard(b)
-              runGame(Some(b)) // Continue running the game with the same board
-            case _ =>
-              println("Erro: Não há jogo para reiniciar!")
-              runGame()
-          }
-        case "4" =>
           println("Obrigado por jogar!")
         case _ =>
           println("Opção inválida")
           runGame(board) // Continue running the game with the same board
       }
     }
-    runGame(Some(startGame())) // Start running the game
+    runGame(startGame()) // Start running the game
   }
 }
