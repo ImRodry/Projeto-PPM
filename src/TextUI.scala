@@ -40,6 +40,7 @@ object TextUI {
           selectWord()
           runGame(board) // Continue running the game with the same board
         case "2" =>
+          println(Console.RESET)
           println("Jogo reiniciado!")
           printBoard(board)
           runGame(board) // Continue running the game with the same board
