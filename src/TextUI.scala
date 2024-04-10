@@ -1,5 +1,5 @@
 import Types._
-import Auxiliar._
+import Utils._
 
 import scala.io.StdIn.readLine
 

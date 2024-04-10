@@ -3,7 +3,7 @@ import ZigZag._
 
 import scala.util.Random
 
-object Auxiliar {
+object Utils {
   // Função para imprimir o tabuleiro recursivamente
   def printBoard(board: Board): Unit = {
     def printRow(row: List[Char]): Unit = row match {
