@@ -66,6 +66,36 @@ object ZigZag {
     fillBoard(board, r)
   }
 
+  //T5
+  def checkWord(filename: String, word: String, start: Coord2D, direction: Direction): Boolean = {
+    val (words, positions) = ZigZag.readWordsAndPositions(filename)
+    val wordsAndPositions = words.zip(positions).toMap
+
+    def getDirection(start: Coord2D, next: Coord2D): Direction = {
+      val (startRow, startCol) = start
+      val (nextRow, nextCol) = next
+
+      (nextRow - startRow, nextCol - startCol) match {
+        case (-1, 0) => North
+        case (1, 0) => South
+        case (0, 1) => East
+        case (0, -1) => West
+        case (-1, 1) => NorthEast
+        case (-1, -1) => NorthWest
+        case (1, 1) => SouthEast
+        case (1, -1) => SouthWest
+        case _ => throw new IllegalArgumentException("Invalid direction")
+      }
+    }
+
+    wordsAndPositions.get(word) match {
+      case Some(positions) =>
+        val wordDirection = getDirection(positions(0), positions(1))
+        positions.head == start && wordDirection == direction
+      case _ => false
+    }
+  }
+
   def readWordsAndPositions(filename: String): (List[String], List[List[Coord2D]]) = {
     val src = Source.fromFile(filename)
     val lines = src.getLines().toList
