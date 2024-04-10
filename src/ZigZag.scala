@@ -1,4 +1,5 @@
 import Types._
+import Types.Direction._
 
 import scala.annotation.tailrec
 import scala.io.Source
@@ -109,21 +110,4 @@ object ZigZag {
     }
     (words, positions)
   }
-
-  def main(args: Array[String]): Unit = {
-    val board: Board = List.fill(5)(List.fill(5)('-'))
-
-    // Lê as palavras e posições do arquivo words.txt
-    val (words, positions) = ZigZag.readWordsAndPositions("words.txt")
-
-    val newBoard = ZigZag.setBoardWithWords(board, words, positions)
-
-    val (randomizedBoard, _) = ZigZag.completeBoardRandomly(newBoard, MyRandom(9569784373L), ZigZag.randomChar)
-
-    // Imprimindo o tabuleiro resultante
-    println("Tabuleiro final:")
-    randomizedBoard.foreach(row => println(row.mkString(" ")))
-  }
-
-
 }

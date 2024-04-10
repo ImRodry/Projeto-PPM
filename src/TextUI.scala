@@ -1,3 +1,6 @@
+import Types._
+import Auxiliar._
+
 import scala.io.StdIn.readLine
 
 object TextUI {
@@ -6,8 +9,7 @@ object TextUI {
     println("1. Iniciar novo jogo")
     println("2. Selecionar palavra")
     println("3. Reiniciar jogo")
-    println("4. Alterar cor do texto")
-    println("5. Sair")
+    println("4. Sair")
   }
 
   def getInput(prompt: String): String = {
@@ -17,26 +19,45 @@ object TextUI {
 
   def selectWord(): Unit = {
     val word = getInput("Digite a palavra que deseja selecionar")
-    // Lógica para selecionar a palavra
+    val start = getInput("Digite a coordenada inicial no formato \"row,col\"")
+    val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
+
+    val startCoord = (start.split(",")(0).toInt, start.split(",")(1).toInt)
+    val directionEnum = Direction.withName(direction)
+
+    if (ZigZag.checkWord("words.txt", word, startCoord, directionEnum)) {
+      println("A palavra está correta!")
+    } else {
+      println("A palavra está incorreta!")
+    }
   }
 
   def main(args: Array[String]): Unit = {
-    var running = true
-
-    while (running) {
+    def runGame(board: Option[Board] = None): Unit = {
       mainMenu()
-      val choice = getInput("Escolha uma opção")
-
-      choice match {
-        case "1" => // Lógica para iniciar novo jogo
-        case "2" => selectWord()
-        case "3" => // Lógica para reiniciar jogo
-        case "4" => // Lógica para alterar cor do texto
-        case "5" => running = false
-        case _ => println("Opção inválida")
+      getInput("Escolha uma opção") match {
+        case "1" =>
+          runGame(Some(startGame())) // Continue running the game with the new board
+        case "2" =>
+          selectWord()
+          runGame(board) // Continue running the game with the same board
+        case "3" =>
+          board match {
+            case Some(b) =>
+              println("Jogo reiniciado!")
+              printBoard(b)
+              runGame(Some(b)) // Continue running the game with the same board
+            case _ =>
+              println("Erro: Não há jogo para reiniciar.")
+              runGame()
+          }
+        case "4" =>
+          println("Obrigado por jogar!")
+        case _ =>
+          println("Opção inválida")
+          runGame(board) // Continue running the game with the same board
       }
     }
-
-    println("Obrigado por jogar!")
+    runGame() // Start running the game
   }
 }
