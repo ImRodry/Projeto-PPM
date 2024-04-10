@@ -82,11 +82,18 @@ object ZigZag {
 
   def main(args: Array[String]): Unit = {
     val board: Board = List.fill(5)(List.fill(5)('-'))
-    val words = List("HELLO", "WORLD")
-    val positions = List(List((0,0), (0,1), (0,2), (0,3), (0,4)), List((1,0), (1,1), (1,2), (1,3), (1,4)))
+
+    // Lê as palavras e posições do arquivo words.txt
+    val (words, positions) = ZigZag.readWordsAndPositions("words.txt")
 
     val newBoard = ZigZag.setBoardWithWords(board, words, positions)
 
-    newBoard.foreach(row => println(row.mkString(" ")))
+    val (randomizedBoard, _) = ZigZag.completeBoardRandomly(newBoard, MyRandom(9569784373L), ZigZag.randomChar)
+
+    // Imprimindo o tabuleiro resultante
+    println("Tabuleiro final:")
+    randomizedBoard.foreach(row => println(row.mkString(" ")))
   }
+
+
 }
