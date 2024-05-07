@@ -1,8 +1,8 @@
 import Types._
 import Types.Direction._
+import Utils._
 
 import scala.annotation.tailrec
-import scala.io.Source
 
 object ZigZag {
   // T1
@@ -68,46 +68,35 @@ object ZigZag {
   }
 
   //T5
-  def play(word: String, start: Coord2D, direction: Direction): Boolean = {
-    val (words, positions) = ZigZag.readWordsAndPositions("words.txt")
-    val wordsAndPositions = words.zip(positions).toMap
-
-    def getDirection(start: Coord2D, next: Coord2D): Direction = {
-      val (startRow, startCol) = start
-      val (nextRow, nextCol) = next
-
-      (nextRow - startRow, nextCol - startCol) match {
-        case (-1, 0) => North
-        case (1, 0) => South
-        case (0, 1) => East
-        case (0, -1) => West
-        case (-1, 1) => NorthEast
-        case (-1, -1) => NorthWest
-        case (1, 1) => SouthEast
-        case (1, -1) => SouthWest
-        case _ => throw new IllegalArgumentException("Invalid direction")
+  def play(board: Board, word: String, start: Coord2D, direction: Direction): Boolean = {
+    val directions = Direction.values
+    System.out.println("Checking word: " + word + " at " + start)
+    def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction): Boolean = {
+      if (word.isEmpty) true
+      else {
+        val (row, col) = coord
+        if (board(row)(col) == word.head) {
+          val nextCoord = nextDirection match {
+            case North => (row - 1, col)
+            case South => (row + 1, col)
+            case East => (row, col + 1)
+            case West => (row, col - 1)
+            case NorthEast => (row - 1, col + 1)
+            case NorthWest => (row - 1, col - 1)
+            case SouthEast => (row + 1, col + 1)
+            case SouthWest => (row + 1, col - 1)
+          }
+          System.out.println("Checking word: " + word.tail + " at " + nextCoord + " with direction " + nextDirection)
+          if (inBounds(nextCoord)) {
+            directions.exists(direction => checkWord(board, word.tail, nextCoord, direction))
+          }
+          else false
+        } else false
       }
     }
-
-    wordsAndPositions.get(word) match {
-      case Some(positions) =>
-        val wordDirection = getDirection(positions.head, positions(1))
-        positions.head == start && wordDirection == direction
-      case _ => false
-    }
+    checkWord(board, word, start, direction)
   }
 
-  def readWordsAndPositions(filename: String): (List[String], List[List[Coord2D]]) = {
-    val src = Source.fromFile(filename)
-    val lines = src.getLines().toList
-    src.close()
-    val words = lines.zipWithIndex.collect { case (line, i) if i % 2 == 0 => line }
-    val positions = lines.zipWithIndex.collect { case (line, i) if i % 2 != 0 =>
-      line.split(" ").map(cord => {
-        val Array(row, col) = cord.split(",").map(_.toInt)
-        (row, col)
-      }).toList
-    }
-    (words, positions)
-  }
+  //T6
+  
 }

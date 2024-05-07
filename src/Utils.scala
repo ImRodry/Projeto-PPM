@@ -1,7 +1,7 @@
 import Types._
 import ZigZag._
-import sun.security.util.Length
 
+import scala.io.Source
 import scala.util.Random
 
 object Utils {
@@ -30,5 +30,25 @@ object Utils {
     println("Começou um jogo novo!")
     printBoard(randomizedBoard)
     randomizedBoard
+  }
+
+  // Função para ler as palavras e posições do arquivo
+  def readWordsAndPositions(filename: String): (List[String], List[List[Coord2D]]) = {
+    val src = Source.fromFile(filename)
+    val lines = src.getLines().toList
+    src.close()
+    val words = lines.zipWithIndex.collect { case (line, i) if i % 2 == 0 => line }
+    val positions = lines.zipWithIndex.collect { case (line, i) if i % 2 != 0 =>
+      line.split(" ").map(cord => {
+        val Array(row, col) = cord.split(",").map(_.toInt)
+        (row, col)
+      }).toList
+    }
+    (words, positions)
+  }
+
+  // Função para verificar se uma coordenada está dentro dos limites do tabuleiro
+  def inBounds(coord: Coord2D): Boolean = {
+    coord._1 >= 0 && coord._1 < TextUI.boardWidth && coord._2 >= 0 && coord._2 < TextUI.boardLength
   }
 }

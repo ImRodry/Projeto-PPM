@@ -20,7 +20,7 @@ object TextUI {
     readLine().trim
   }
 
-  def selectWord(): Unit = {
+  def selectWord(board: Board): Unit = {
     val word = getInput("Digite a palavra que deseja selecionar").toUpperCase()
     val start = getInput("Digite a coordenada inicial no formato \"row,col\"").split(",")
     val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
@@ -28,7 +28,7 @@ object TextUI {
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    if (ZigZag.play(word, startCoord, directionEnum)) {
+    if (ZigZag.play(board, word, startCoord, directionEnum)) {
       println("A palavra está correta!")
     } else {
       println("A palavra está incorreta!")
@@ -40,7 +40,7 @@ object TextUI {
       mainMenu()
       getInput("Escolha uma opção") match {
         case "1" =>
-          selectWord()
+          selectWord(board)
           runGame(board) // Continue running the game with the same board
         case "2" =>
           println(Console.RESET)
