@@ -4,6 +4,8 @@ import Utils._
 import scala.io.StdIn.readLine
 
 object TextUI {
+  val (boardWidth, boardLength) = getBoardSize()
+
   def getBoardSize(asked: Boolean = false): (Int, Int) = {
     if (asked) println("Tamanho inválido! A largura e o comprimento do tabuleiro devem ser maiores ou iguais a 5.")
     val boardWidth = getInput("Insira o comprimento do tabuleiro").toInt
@@ -12,7 +14,6 @@ object TextUI {
     if (boardLength < 5 || boardWidth < 5) getBoardSize(true)
     else (boardWidth, boardLength)
   }
-  val (boardWidth, boardLength) = getBoardSize()
 
   def mainMenu(): Unit = {
     println("Bem-vindo ao jogo de palavras cruzadas!")
