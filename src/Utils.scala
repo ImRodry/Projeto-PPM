@@ -26,7 +26,7 @@ object Utils {
     val board: Board = List.fill(length)(List.fill(width)('-')) // Tabuleiro vazio de 5x5
     val (words, positions) = readWordsAndPositions("words.txt") // Lê as palavras e posições do arquivo
     val newBoard = setBoardWithWords(board, words, positions) // Coloca as palavras no tabuleiro
-    val (randomizedBoard, _) = completeBoardRandomly(newBoard, MyRandom(Random.nextInt()), randomChar) // Completa o tabuleiro com caracteres aleatórios
+    val (randomizedBoard, _) = completeBoardRandomly(newBoard, MyRandom(1), randomChar) // Completa o tabuleiro com caracteres aleatórios
     println("Começou um jogo novo!")
     printBoard(randomizedBoard)
     randomizedBoard

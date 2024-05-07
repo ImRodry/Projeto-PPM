@@ -88,13 +88,16 @@ object TextUI {
           runGame(board) // Continue running the game with the same board
       }
     }
-    var asked = false
-    while (boardLength < 5 || boardWidth < 5) {
+    def getBoardSize(asked: Boolean = false): (Int, Int) = {
       if (asked) println("Tamanho inválido! A largura e o comprimento do tabuleiro devem ser maiores ou iguais a 5.")
-      boardWidth = getInput("Insira o comprimento do tabuleiro").toInt
-      boardLength = getInput("Insira a largura do tabuleiro").toInt
-      asked = true
+        val boardWidth = getInput("Insira o comprimento do tabuleiro").toInt
+        val boardLength = getInput("Insira a largura do tabuleiro").toInt
+
+      if (boardLength < 5 || boardWidth < 5) getBoardSize(true)
+      else (boardWidth, boardLength)
     }
+    val (boardWidth, boardLength) = getBoardSize()
+
     runGame(startGame(boardWidth, boardLength)) // Start running the game
   }
 }
