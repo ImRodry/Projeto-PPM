@@ -36,6 +36,7 @@ class Controller {
 
   def onIniciarJogoClicked(): Unit = {
     reiniciarJogoButton.setVisible(true) // Mostra o botão de reiniciar jogo
+    selecionarPalavraButton.setVisible(true) // Mostra o botão de selecionar palavra
     toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
     palavraLabel.setVisible(false)    // Esconde a palavra anterior
     iniciarJogoButton.setVisible(false) // Esconde o botão de iniciar jogo
