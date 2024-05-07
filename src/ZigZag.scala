@@ -86,7 +86,7 @@ object ZigZag {
             case SouthEast => (row + 1, col + 1)
             case SouthWest => (row + 1, col - 1)
           }
-          System.out.println("Checking word: " + word.tail + " at " + nextCoord + " with direction " + nextDirection)
+          System.out.println("Checking letter: " + word.head + " at " + nextCoord + " with direction " + nextDirection)
           if (inBounds(nextCoord)) {
             directions.exists(direction => checkWord(board, word.tail, nextCoord, direction))
           }
