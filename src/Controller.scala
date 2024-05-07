@@ -29,6 +29,7 @@ class Controller {
   def onSelecionarClicked(): Unit = {
     toggleTextFieldAndButton(false)
   }
+  // Set visibility of TextField and Button
   def toggleTextFieldAndButton(b:Boolean): Unit = {
     palavraTextField.setVisible(b)
     selecionarButton.setVisible(b)
