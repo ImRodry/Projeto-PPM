@@ -1,11 +1,13 @@
 import Types._
 import Utils._
 
+import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 object TextUI {
   val (boardWidth, boardLength) = getBoardSize()
 
+  @tailrec
   def getBoardSize(asked: Boolean = false): (Int, Int) = {
     if (asked) println("Tamanho inválido! A largura e o comprimento do tabuleiro devem ser maiores ou iguais a 5.")
     val boardWidth = getInput("Insira o comprimento do tabuleiro").toInt
