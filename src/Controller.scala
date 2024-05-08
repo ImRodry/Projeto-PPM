@@ -79,6 +79,7 @@ class Controller {
   def onSelecionarClicked(): Unit = {
     palavraLabel.setVisible(true)
     palavraLabel.setText(palavraTextField.getText)
+    palavraLabel.setText(palavraLabel.getText().toUpperCase())
     val word = palavraTextField.getText
     val coord = coordTextField.getText
     val coordParts = coord.split(",") // Suponha que as coordenadas são dadas como "row,column"
