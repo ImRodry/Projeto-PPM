@@ -8,7 +8,6 @@ import javafx.scene.layout.GridPane
 import javafx.scene.text.Font
 
 class Controller {
-
   private var board: Board = _
 
   @FXML
@@ -44,7 +43,7 @@ class Controller {
     iniciarJogoButton.setVisible(false) // Esconde o botão de iniciar jogo
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
     tabuleiroGridPane.setGridLinesVisible(true)   // Mostra as linhas do tabuleiro
-    board = Utils.startGame(5, 5)          // Inicia um novo jogo
+    board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)          // Inicia um novo jogo
     // Preencher o GridPane com as novas letras
     for (i <- board.indices) {
       for (j <- board(i).indices) {
@@ -61,7 +60,7 @@ class Controller {
     palavraLabel.setVisible(false)    // Esconde a palavra anterior
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
     tabuleiroGridPane.setGridLinesVisible(true)   // Mostra as linhas do tabuleiro
-    board = Utils.startGame(5, 5, GUI)          // Inicia um novo jogo
+    board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)          // Inicia um novo jogo
     // Preencher o GridPane com as novas letras
     for (i <- board.indices) {
       for (j <- board(i).indices) {
@@ -89,7 +88,7 @@ class Controller {
     val directionString = directionTextField.getText
     val direction = Direction.withName(directionString)
     // Verifica se a palavra está no tabuleiro
-    if (play(board,word, coord2D, direction)) {
+    if (play(board,word, coord2D, direction, GUI)) {
       palavraLabel.setStyle("-fx-text-fill: green") // Muda a cor do texto para verde
     } else {
       palavraLabel.setStyle("-fx-text-fill: red") // Muda a cor do texto para vermelho

@@ -5,6 +5,8 @@ import BoardType._
 import scala.io.Source
 
 object Utils {
+  val (boardWidth, boardHeight) = (5, 5) // Largura e comprimento do tabuleiro da GUI
+
   // Função para imprimir o tabuleiro recursivamente
   def printBoard(board: Board): Unit = {
     def printRow(row: List[Char]): Unit = row match {
@@ -22,8 +24,8 @@ object Utils {
   }
 
   // Função para iniciar ou reiniciar o jogo
-    val board: Board = List.fill(length)(List.fill(width)('-')) // Tabuleiro vazio de 5x5
   def startGame(width: Int, height: Int, boardType: BoardType): Board   = {
+    val board: Board = List.fill(height)(List.fill(width)('-')) // Tabuleiro vazio de 5x5
     val (words, positions) = readWordsAndPositions("words.txt") // Lê as palavras e posições do arquivo
     val newBoard = setBoardWithWords(board, words, positions) // Coloca as palavras no tabuleiro
     val (randomizedBoard, _) = completeBoardRandomly(newBoard, MyRandom(1), randomChar) // Completa o tabuleiro com caracteres aleatórios
@@ -51,7 +53,10 @@ object Utils {
   }
 
   // Função para verificar se uma coordenada está dentro dos limites do tabuleiro
-  def inBounds(coord: Coord2D): Boolean = {
-    coord._1 >= 0 && coord._1 < TextUI.boardWidth && coord._2 >= 0 && coord._2 < TextUI.boardLength
+  def inBounds(coord: Coord2D, boardType: BoardType): Boolean = {
+    if (boardType == BoardType.Text)
+      coord._1 >= 0 && coord._1 < TextUI.boardWidth && coord._2 >= 0 && coord._2 < TextUI.boardHeight
+    else
+      coord._1 >= 0 && coord._1 < Utils.boardWidth && coord._2 >= 0 && coord._2 < Utils.boardHeight
   }
 }

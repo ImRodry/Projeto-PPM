@@ -1,6 +1,7 @@
 import Types._
 import Types.Direction._
 import Utils._
+import BoardType._
 
 import scala.annotation.tailrec
 
@@ -68,7 +69,7 @@ object ZigZag {
   }
 
   //T5
-  def play(board: Board, word: String, start: Coord2D, direction: Direction): Boolean = {
+  def play(board: Board, word: String, start: Coord2D, direction: Direction, boardType: BoardType): Boolean = {
     val directions = Direction.values
     System.out.println("Checking word: " + word + " at " + start)
     def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction): Boolean = {
@@ -87,7 +88,7 @@ object ZigZag {
             case SouthWest => (row + 1, col - 1)
           }
           System.out.println("Checking letter: " + word.head + " at " + nextCoord + " with direction " + nextDirection)
-          if (inBounds(nextCoord)) {
+          if (inBounds(nextCoord, boardType)) {
             directions.exists(direction => checkWord(board, word.tail, nextCoord, direction))
           }
           else false

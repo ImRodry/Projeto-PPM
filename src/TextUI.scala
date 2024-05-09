@@ -6,7 +6,7 @@ import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 object TextUI {
-  val (boardWidth, boardLength) = getBoardSize()
+  val (boardWidth, boardHeight) = getBoardSize()
 
   @tailrec
   def getBoardSize(asked: Boolean = false): (Int, Int) = {
@@ -39,7 +39,7 @@ object TextUI {
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    if (ZigZag.play(board, word, startCoord, directionEnum)) {
+    if (ZigZag.play(board, word, startCoord, directionEnum, Text)) {
       println("A palavra está correta!")
     } else {
       println("A palavra está incorreta!")
@@ -100,6 +100,6 @@ object TextUI {
       }
     }
 
-    runGame(startGame(boardWidth, boardLength, Text)) // Start running the game
+    runGame(startGame(boardWidth, boardHeight, Text)) // Start running the game
   }
 }
