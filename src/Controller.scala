@@ -1,5 +1,7 @@
+import BoardType._
 import Types.{Board, Direction}
 import ZigZag.play
+
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label, TextField}
 import javafx.scene.layout.GridPane
@@ -59,7 +61,7 @@ class Controller {
     palavraLabel.setVisible(false)    // Esconde a palavra anterior
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
     tabuleiroGridPane.setGridLinesVisible(true)   // Mostra as linhas do tabuleiro
-    board = Utils.startGame(5, 5)          // Inicia um novo jogo
+    board = Utils.startGame(5, 5, GUI)          // Inicia um novo jogo
     // Preencher o GridPane com as novas letras
     for (i <- board.indices) {
       for (j <- board(i).indices) {
@@ -80,7 +82,7 @@ class Controller {
     palavraLabel.setVisible(true)
     palavraLabel.setText(palavraTextField.getText)
     palavraLabel.setText(palavraLabel.getText().toUpperCase())
-    val word = palavraTextField.getText
+    val word = palavraTextField.getText().toUpperCase()
     val coord = coordTextField.getText
     val coordParts = coord.split(",") // Suponha que as coordenadas são dadas como "row,column"
     val coord2D = (coordParts(0).trim.toInt, coordParts(1).trim.toInt)

@@ -1,8 +1,8 @@
 import Types._
 import ZigZag._
+import BoardType._
 
 import scala.io.Source
-import scala.util.Random
 
 object Utils {
   // Função para imprimir o tabuleiro recursivamente
@@ -22,14 +22,17 @@ object Utils {
   }
 
   // Função para iniciar ou reiniciar o jogo
-  def startGame(width: Int, length: Int): Board   = {
     val board: Board = List.fill(length)(List.fill(width)('-')) // Tabuleiro vazio de 5x5
+  def startGame(width: Int, height: Int, boardType: BoardType): Board   = {
     val (words, positions) = readWordsAndPositions("words.txt") // Lê as palavras e posições do arquivo
     val newBoard = setBoardWithWords(board, words, positions) // Coloca as palavras no tabuleiro
     val (randomizedBoard, _) = completeBoardRandomly(newBoard, MyRandom(1), randomChar) // Completa o tabuleiro com caracteres aleatórios
-    println("Começou um jogo novo!")
-    printBoard(randomizedBoard)
-    randomizedBoard
+    if (boardType == BoardType.Text) { // Imprime o tabuleiro se for do tipo Text
+      println("Começou um jogo novo!")
+      printBoard(randomizedBoard)
+      randomizedBoard
+    }
+    else randomizedBoard // Retorna o tabuleiro
   }
 
   // Função para ler as palavras e posições do arquivo

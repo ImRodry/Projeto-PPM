@@ -1,5 +1,6 @@
 import Types._
 import Utils._
+import BoardType._
 
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
@@ -99,6 +100,6 @@ object TextUI {
       }
     }
 
-    runGame(startGame(boardWidth, boardLength)) // Start running the game
+    runGame(startGame(boardWidth, boardLength, Text)) // Start running the game
   }
 }

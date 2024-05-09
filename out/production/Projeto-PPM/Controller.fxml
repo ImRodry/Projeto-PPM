@@ -155,11 +155,11 @@
             </Label>
          </children>
       </GridPane>
-      <Label layoutX="20.0" layoutY="21.0" text="PRODUTO">
+      <Label layoutX="20.0" layoutY="21.0" text="FINGE">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label layoutX="123.0" layoutY="21.0" text="MOCHILA">
+      <Label layoutX="123.0" layoutY="21.0" text="LUA">
          <font>
             <Font size="16.0" />
          </font></Label>
