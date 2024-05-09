@@ -30,125 +30,125 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" GridPane.halignment="CENTER">
+            <Label fx:id="label00" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" GridPane.halignment="CENTER">
                <font>
                   <Font size="40.0" />
                </font></Label>
-            <Label textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Label fx:id="label01" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <font>
                   <Font size="40.0" />
                </font></Label>
-            <Label GridPane.columnIndex="2" GridPane.halignment="CENTER">
+            <Label fx:id="label02" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="3" GridPane.halignment="CENTER">
+            <Label fx:id="label03" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="4" GridPane.halignment="CENTER">
+            <Label fx:id="label04" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="label10" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="label11" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="label12" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="label13" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label fx:id="label14" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label fx:id="label20" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label fx:id="label21" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label fx:id="label22" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label fx:id="label23" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label fx:id="label24" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="label30" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="label31" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="label32" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="label33" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label fx:id="label34" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label fx:id="label40" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label fx:id="label41" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label fx:id="label42" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label fx:id="label43" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Label GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label fx:id="label44" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="40.0" />
                </font>
@@ -163,7 +163,7 @@
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label layoutX="214.0" layoutY="21.0" text="RATO">
+      <Label layoutX="214.0" layoutY="21.0" text="STORM">
          <font>
             <Font size="16.0" />
          </font></Label>

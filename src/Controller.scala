@@ -42,7 +42,6 @@ class Controller {
     palavraLabel.setVisible(false)    // Esconde a palavra anterior
     iniciarJogoButton.setVisible(false) // Esconde o botão de iniciar jogo
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
-    tabuleiroGridPane.setGridLinesVisible(true)   // Mostra as linhas do tabuleiro
     board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)          // Inicia um novo jogo
     // Preencher o GridPane com as novas letras
     for (i <- board.indices) {
@@ -59,7 +58,6 @@ class Controller {
     toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
     palavraLabel.setVisible(false)    // Esconde a palavra anterior
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
-    tabuleiroGridPane.setGridLinesVisible(true)   // Mostra as linhas do tabuleiro
     board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)          // Inicia um novo jogo
     // Preencher o GridPane com as novas letras
     for (i <- board.indices) {
