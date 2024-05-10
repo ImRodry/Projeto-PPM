@@ -6,6 +6,7 @@ import BoardType._
 import scala.annotation.tailrec
 
 object ZigZag {
+  private val directions = Direction.values
   // T1
   def randomChar(rand: MyRandom): (Char, MyRandom) = {
     val (n, nextRand) = rand.nextInt
@@ -70,34 +71,42 @@ object ZigZag {
 
   //T5
   def play(board: Board, word: String, start: Coord2D, direction: Direction, boardType: BoardType): Boolean = {
-    val directions = Direction.values
     System.out.println("Checking word: " + word + " at " + start)
-    def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction): Boolean = {
-      if (word.isEmpty) true
-      else {
-        val (row, col) = coord
-        if (board(row)(col) == word.head) {
-          val nextCoord = nextDirection match {
-            case North => (row - 1, col)
-            case South => (row + 1, col)
-            case East => (row, col + 1)
-            case West => (row, col - 1)
-            case NorthEast => (row - 1, col + 1)
-            case NorthWest => (row - 1, col - 1)
-            case SouthEast => (row + 1, col + 1)
-            case SouthWest => (row + 1, col - 1)
-          }
-          System.out.println("Checking letter: " + word.head + " at " + nextCoord + " with direction " + nextDirection)
-          if (inBounds(nextCoord, boardType)) {
-            directions.exists(direction => checkWord(board, word.tail, nextCoord, direction))
-          }
-          else false
-        } else false
-      }
+    checkWord(board, word, start, direction, List(start), boardType)
+  }
+
+  def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction, checkedCoords: List[Coord2D], boardType: BoardType): Boolean = {
+    if (word.isEmpty) true
+    else {
+      val (row, col) = coord
+      if (board(row)(col) == word.head) {
+        val nextCoord: Coord2D = nextDirection match {
+          case North => (row - 1, col)
+          case South => (row + 1, col)
+          case East => (row, col + 1)
+          case West => (row, col - 1)
+          case NorthEast => (row - 1, col + 1)
+          case NorthWest => (row - 1, col - 1)
+          case SouthEast => (row + 1, col + 1)
+          case SouthWest => (row + 1, col - 1)
+        }
+        System.out.println("Checking letter: " + word.head + " at " + nextCoord + " with direction " + nextDirection)
+        if (!checkedCoords.contains(nextCoord) && inBounds(nextCoord, boardType))
+          directions.exists(direction => checkWord(board, word.tail, nextCoord, direction, checkedCoords :+ nextCoord, boardType))
+        else false
+      } else false
     }
-    checkWord(board, word, start, direction)
   }
 
   //T6
-  
+  def checkBoard(board: Board, words: List[String]) = words match {
+    case Nil => true
+    case word :: tail =>
+      val coords = for {
+        x <- 0 to 4
+        y <- 0 to 4
+      } yield (x, y)
+      coords.toList.count(coord => checkWord(board, word, coord, direction, List(coord), boardType))
+
+  }
 }
