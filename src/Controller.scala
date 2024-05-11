@@ -54,7 +54,6 @@ class Controller {
     reiniciarJogoButton.setVisible(true) // Mostra o botão de reiniciar jogo
     selecionarPalavraButton.setVisible(true) // Mostra o botão de selecionar palavra
     toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
-    palavraLabel.setVisible(false)    // Esconde a palavra anterior
     iniciarJogoButton.setVisible(false) // Esconde o botão de iniciar jogo
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
     board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)          // Inicia um novo jogo
@@ -88,13 +87,9 @@ class Controller {
 
   def onSelecionarPalavraClicked(): Unit = {
     toggleTextFieldsAndButton(true)
-    palavraLabel.setVisible(false)    // Esconde a palavra anterior
   }
 
   def onSelecionarClicked(): Unit = {
-    palavraLabel.setVisible(true)
-    palavraLabel.setText(palavraTextField.getText)
-    palavraLabel.setText(palavraLabel.getText().toUpperCase())
     val word = palavraTextField.getText().toUpperCase()
     val row = rowTextField.getText.trim.toInt // Suponha que rowTextField é o campo de texto para a linha
     val column = colTextField.getText.trim.toInt // Suponha que columnTextField é o campo de texto para a coluna
@@ -122,9 +117,13 @@ class Controller {
       }
     } else {
       palavraLabel.setStyle("-fx-text-fill: red") // Muda a cor do texto para vermelho
+      // Não esconda os campos de texto e o botão em caso de erro
+      // toggleTextFieldsAndButton(false)
     }
-    toggleTextFieldsAndButton(false)
+    // Mantenha os campos de texto e o botão visíveis após um erro
+    toggleTextFieldsAndButton(true)
   }
+
 
   private def paintWordOnBoard(word: String, wordPositions: List[(Int, Int)]) = {
     for ((row, col) <- wordPositions) {

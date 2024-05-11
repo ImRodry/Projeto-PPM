@@ -1,20 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-   <children>
-      <Button fx:id="reiniciarJogoButton" layoutX="14.0" layoutY="120.0" mnemonicParsing="false" onMouseClicked="#onReiniciarJogoClicked" prefHeight="37.0" prefWidth="150.0" text="Reiniciar jogo">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
-      <Button fx:id="selecionarPalavraButton" layoutX="14.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#onSelecionarPalavraClicked" text="Selecionar palavra">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
-      <GridPane fx:id="tabuleiroGridPane" gridLinesVisible="true" layoutX="300.0" layoutY="77.0" prefHeight="284.0" prefWidth="285.0">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <top>
+      <HBox>
+         <Button fx:id="iniciarJogoButton" mnemonicParsing="false" onMouseClicked="#onIniciarJogoClicked" prefHeight="37.0" prefWidth="134.0" text="Iniciar Jogo">
+            <HBox.margin>
+               <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+            </HBox.margin>
+            <font>
+               <Font size="16.0" />
+            </font>
+         </Button>
+         <Button fx:id="selecionarPalavraButton" mnemonicParsing="false" onMouseClicked="#onSelecionarPalavraClicked" text="Selecionar palavra" visible="false">
+            <font>
+               <Font size="16.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="10.0" top="10.0" />
+            </HBox.margin>
+         </Button>
+         <Button fx:id="reiniciarJogoButton" mnemonicParsing="false" onMouseClicked="#onReiniciarJogoClicked" text="Reiniciar jogo" visible="false">
+            <font>
+               <Font size="16.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="20.0" top="10.0" />
+            </HBox.margin>
+         </Button>
+      </HBox>
+   </top>
+   <left>
+      <VBox spacing="10">
+         <!-- Componentes para selecionar palavra -->
+         <Label fx:id="palavraLegendaLabel" text="Palavra" visible="false" />
+         <TextField fx:id="palavraTextField" prefHeight="26.0" prefWidth="149.0" visible="false" />
+         <Label fx:id="rowLabel" text="Linha" visible="false" />
+         <TextField fx:id="rowTextField" prefHeight="26.0" prefWidth="64.0" visible="false" />
+         <Label fx:id="colLabel" text="Coluna" visible="false" />
+         <TextField fx:id="colTextField" prefHeight="26.0" prefWidth="64.0" visible="false" />
+         <Label fx:id="directionLegendaLabel" text="Direção inicial" visible="false" />
+         <TextField fx:id="directionTextField" prefHeight="26.0" prefWidth="150.0" visible="false" />
+         <Button fx:id="selecionarButton" mnemonicParsing="false" onMouseClicked="#onSelecionarClicked" text="Selecionar" visible="false" />
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <right>
+      <VBox spacing="10">
+         <Label fx:id="firstWord" alignment="CENTER" prefHeight="18.0" prefWidth="138.0">
+            <VBox.margin>
+               <Insets right="10.0" top="30.0" />
+            </VBox.margin>
+            <font>
+               <Font size="24.0" />
+            </font></Label>
+         <Label fx:id="secondWord" alignment="CENTER" prefHeight="18.0" prefWidth="138.0">
+            <VBox.margin>
+               <Insets right="10.0" />
+            </VBox.margin>
+            <font>
+               <Font size="24.0" />
+            </font></Label>
+         <Label fx:id="thirdWord" alignment="CENTER" prefHeight="18.0" prefWidth="138.0">
+            <font>
+               <Font size="24.0" />
+            </font></Label>
+         <Label fx:id="palavraLabel" alignment="CENTER" layoutX="10.0" layoutY="132.0" prefHeight="18.0" prefWidth="138.0">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+      </VBox>
+   </right>
+   <center>
+      <GridPane fx:id="tabuleiroGridPane" gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -29,163 +94,36 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
+         <BorderPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </BorderPane.margin>
          <children>
-            <Label fx:id="label00" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" GridPane.halignment="CENTER">
-               <font>
-                  <Font size="40.0" />
-               </font></Label>
-            <Label fx:id="label01" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-               <font>
-                  <Font size="40.0" />
-               </font></Label>
-            <Label fx:id="label02" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label03" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label04" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label10" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label11" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label12" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label13" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label14" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label20" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label21" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label22" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label23" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label24" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label30" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label31" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label32" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label33" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label34" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label40" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label41" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label42" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label43" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label fx:id="label44" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
+            <Label />
+            <Label GridPane.columnIndex="1" />
+            <Label GridPane.columnIndex="2" />
+            <Label GridPane.rowIndex="1" />
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label GridPane.rowIndex="2" />
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label GridPane.columnIndex="3" />
+            <Label GridPane.columnIndex="4" />
+            <Label GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Label GridPane.rowIndex="3" />
+            <Label GridPane.rowIndex="4" />
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Label GridPane.columnIndex="4" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Label fx:id="firstWord" layoutX="20.0" layoutY="21.0">
-         <font>
-            <Font size="16.0" />
-         </font></Label>
-      <Label fx:id="secondWord" layoutX="123.0" layoutY="21.0">
-         <font>
-            <Font size="16.0" />
-         </font></Label>
-      <Label fx:id="thirdWord" layoutX="214.0" layoutY="21.0">
-         <font>
-            <Font size="16.0" />
-         </font></Label>
-      <TextField fx:id="palavraTextField" layoutX="334.0" layoutY="83.0" prefHeight="37.0" prefWidth="149.0" visible="false" />
-      <Button fx:id="selecionarButton" layoutX="181.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#onSelecionarClicked" prefHeight="38.0" prefWidth="98.0" text="Selecionar" />
-      <Label fx:id="palavraLabel" alignment="CENTER" layoutX="315.0" layoutY="10.0" prefHeight="35.0" prefWidth="245.0" text="PALAVRA">
-         <font>
-            <Font size="31.0" />
-         </font>
-      </Label>
-      <TextField fx:id="palavraTextField" layoutX="15.0" layoutY="231.0" prefHeight="26.0" prefWidth="149.0" />
-      <TextField fx:id="rowTextField" layoutX="15.0" layoutY="279.0" prefHeight="26.0" prefWidth="64.0" />
-      <TextField fx:id="directionTextField" layoutX="15.0" layoutY="331.0" prefHeight="26.0" prefWidth="150.0" />
-      <Label fx:id="palavraLegendaLabel" layoutX="15.0" layoutY="216.0" prefHeight="17.0" prefWidth="90.0" text="Palavra" />
-      <Label fx:id="rowLabel" layoutX="16.0" layoutY="262.0" prefHeight="18.0" prefWidth="30.0" text="Linha" />
-      <Label fx:id="directionLegendaLabel" layoutX="16.0" layoutY="314.0" prefHeight="17.0" prefWidth="90.0" text="Direção inicial" />
-      <Button fx:id="iniciarJogoButton" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#onIniciarJogoClicked" prefHeight="35.0" prefWidth="150.0" text="Iniciar jogo">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Label fx:id="colLabel" layoutX="100.0" layoutY="262.0" prefHeight="18.0" prefWidth="43.0" text="Coluna" />
-      <TextField fx:id="colTextField" layoutX="99.0" layoutY="279.0" prefHeight="26.0" prefWidth="64.0" />
-   </children>
-</AnchorPane>
+   </center>
+</BorderPane>
