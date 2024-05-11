@@ -168,23 +168,24 @@
             <Font size="16.0" />
          </font></Label>
       <TextField fx:id="palavraTextField" layoutX="334.0" layoutY="83.0" prefHeight="37.0" prefWidth="149.0" visible="false" />
-      <Button fx:id="selecionarButton" layoutX="144.0" layoutY="224.0" mnemonicParsing="false" onMouseClicked="#onSelecionarClicked" prefHeight="38.0" prefWidth="98.0" text="Selecionar" visible="false" />
-      <Label fx:id="palavraLabel" alignment="CENTER" layoutX="270.0" layoutY="46.0" prefHeight="35.0" prefWidth="245.0" text="PALAVRA" visible="false">
+      <Button fx:id="selecionarButton" layoutX="144.0" layoutY="224.0" mnemonicParsing="false" onMouseClicked="#onSelecionarClicked" prefHeight="38.0" prefWidth="98.0" text="Selecionar" />
+      <Label fx:id="palavraLabel" alignment="CENTER" layoutX="270.0" layoutY="46.0" prefHeight="35.0" prefWidth="245.0" text="PALAVRA">
          <font>
             <Font size="31.0" />
          </font>
       </Label>
-      <TextField fx:id="palavraTextField" layoutX="20.0" layoutY="231.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
-      <TextField fx:id="coordTextField" layoutX="20.0" layoutY="279.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
-      <TextField fx:id="directionTextField" layoutX="20.0" layoutY="331.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
-      <Label fx:id="palavraLegendaLabel" layoutX="20.0" layoutY="216.0" prefHeight="17.0" prefWidth="90.0" text="Palavra" visible="false" />
-      <Label fx:id="coordLegendaLabel" layoutX="20.0" layoutY="262.0" prefHeight="17.0" prefWidth="90.0" text="Coordenada" visible="false" />
-      <Label fx:id="directionLegendaLabel" layoutX="20.0" layoutY="314.0" prefHeight="17.0" prefWidth="90.0" text="Direção inicial" visible="false" />
+      <TextField fx:id="palavraTextField" layoutX="20.0" layoutY="231.0" prefHeight="25.0" prefWidth="90.0" />
+      <TextField fx:id="rowTextField" layoutX="20.0" layoutY="279.0" prefHeight="26.0" prefWidth="43.0" />
+      <TextField fx:id="directionTextField" layoutX="20.0" layoutY="331.0" prefHeight="25.0" prefWidth="90.0" />
+      <Label fx:id="palavraLegendaLabel" layoutX="20.0" layoutY="216.0" prefHeight="17.0" prefWidth="90.0" text="Palavra" />
+      <Label fx:id="rowLabel" layoutX="20.0" layoutY="262.0" prefHeight="18.0" prefWidth="30.0" text="Linha" />
+      <Label fx:id="directionLegendaLabel" layoutX="20.0" layoutY="314.0" prefHeight="17.0" prefWidth="90.0" text="Direção inicial" />
       <Button fx:id="iniciarJogoButton" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#onIniciarJogoClicked" prefHeight="35.0" prefWidth="119.0" text="Iniciar jogo">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Label fx:id="informationLabel" layoutX="255.0" layoutY="61.0" prefHeight="35.0" prefWidth="275.0" />
+      <Label fx:id="colLabel" layoutX="67.0" layoutY="262.0" prefHeight="18.0" prefWidth="43.0" text="Coluna" />
+      <TextField fx:id="colTextField" layoutX="67.0" layoutY="279.0" prefHeight="26.0" prefWidth="43.0" />
    </children>
 </AnchorPane>

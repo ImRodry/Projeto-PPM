@@ -1,10 +1,10 @@
 import BoardType._
 import Types.{Board, Direction}
 import ZigZag.play
-
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label, TextField}
 import javafx.scene.layout.GridPane
+import javafx.scene.paint.Color
 import javafx.scene.text.Font
 
 class Controller {
@@ -23,13 +23,17 @@ class Controller {
   @FXML
   private var tabuleiroGridPane: GridPane = _
   @FXML
-  private var coordTextField: TextField = _
+  private var rowTextField: TextField = _
+  @FXML
+  private var colTextField: TextField = _
   @FXML
   private var directionTextField: TextField = _
   @FXML
   private var palavraLegendaLabel: Label = _
   @FXML
-  private var coordLegendaLabel: Label = _
+  private var rowLabel: Label = _
+  @FXML
+  private var colLabel: Label = _
   @FXML
   private var directionLegendaLabel: Label = _
   @FXML
@@ -80,32 +84,52 @@ class Controller {
     palavraLabel.setText(palavraTextField.getText)
     palavraLabel.setText(palavraLabel.getText().toUpperCase())
     val word = palavraTextField.getText().toUpperCase()
-    val coord = coordTextField.getText
-    val coordParts = coord.split(",") // Suponha que as coordenadas são dadas como "row,column"
-    val coord2D = (coordParts(0).trim.toInt, coordParts(1).trim.toInt)
+    val row = rowTextField.getText.trim.toInt // Suponha que rowTextField é o campo de texto para a linha
+    val column = colTextField.getText.trim.toInt // Suponha que columnTextField é o campo de texto para a coluna
+    val coord2D = (row, column)
     val directionString = directionTextField.getText
     val direction = Direction.withName(directionString)
+
     // Verifica se a palavra está no tabuleiro
-    if (play(board,word, coord2D, direction, GUI)) {
-      palavraLabel.setStyle("-fx-text-fill: green") // Muda a cor do texto para verde
+    if (play(board, word, coord2D, direction, GUI)) {
+      val (words, positions) = Utils.readWordsAndPositions("words.txt")
+      val wordIndex = words.indexOf(word)
+      if (wordIndex != -1 && positions.length > wordIndex) {
+        val wordPositions = positions(wordIndex)
+        paintWordOnBoard(word, wordPositions)
+        palavraLabel.setStyle("-fx-text-fill: green") // Muda a cor do texto para verde
+      } else {
+        palavraLabel.setStyle("-fx-text-fill: black") // Se a palavra não estiver no arquivo, mantenha a cor preta
+      }
     } else {
       palavraLabel.setStyle("-fx-text-fill: red") // Muda a cor do texto para vermelho
-
     }
     toggleTextFieldsAndButton(false)
   }
+
+  private def paintWordOnBoard(word: String, wordPositions: List[(Int, Int)]) = {
+    for ((row, col) <- wordPositions) {
+      val label = tabuleiroGridPane.getChildren.get(row * Utils.boardWidth + col).asInstanceOf[Label]
+      label.setTextFill(Color.GREENYELLOW) // Muda a cor do texto para verde
+    }
+  }
+
+
 
   // Set visibility of TextField and Button
   def toggleTextFieldsAndButton(b:Boolean): Unit = {
     palavraTextField.setVisible(b)
     selecionarButton.setVisible(b)
-    coordTextField.setVisible(b)
+    rowTextField.setVisible(b)
+    colTextField.setVisible(b)
     directionTextField.setVisible(b)
     palavraLegendaLabel.setVisible(b)
-    coordLegendaLabel.setVisible(b)
+    rowLabel.setVisible(b)
+    colLabel.setVisible(b)
     directionLegendaLabel.setVisible(b)
     palavraTextField.clear()
-    coordTextField.clear()
+    rowTextField.clear()
+    colTextField.clear()
     directionTextField.clear()
   }
 }
