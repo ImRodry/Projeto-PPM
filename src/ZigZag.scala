@@ -6,8 +6,6 @@ import BoardType._
 import scala.annotation.tailrec
 
 object ZigZag {
-  val startTime: Long = System.currentTimeMillis() // Inicia o cronômetro do jogo
-
   // T1
   def randomChar(rand: MyRandom): (Char, MyRandom) = {
     val (n, nextRand) = rand.nextInt
@@ -102,11 +100,11 @@ object ZigZag {
   //T6
 
   //T7
-  def getElapsedTime(): Long = {
+  def getElapsedTime(startTime: Long): Long = {
     System.currentTimeMillis() - startTime
   }
 
-  def isGameOver(): Boolean = {
-    getElapsedTime() > 30000
+  def isGameOver(startTime: Long): Boolean = {
+    getElapsedTime(startTime) > 30000
   }
 }

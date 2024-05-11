@@ -32,15 +32,14 @@ object TextUI {
     readLine().trim
   }
 
-  def selectWord(board: Board, points: Int): Int = {
+  def selectWord(board: Board, points: Int, startTime: Long): Int = {
     val word = getInput("Digite a palavra que deseja selecionar").toUpperCase()
     val start = getInput("Digite a coordenada inicial no formato \"row,col\"").split(",")
     val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
-
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    if (ZigZag.isGameOver()) {
+    if (ZigZag.isGameOver(startTime)) {
       println("Acabou o tempo!")
       println("Pontuação final: " + points)
       printBoard(board)
@@ -57,13 +56,14 @@ object TextUI {
   }
 
   def main(args: Array[String]): Unit = {
+    val startTime = System.currentTimeMillis()
     def runGame(board: Board, points: Int): Unit = {
       println("Pontuação: " + points)
       mainMenu()
       getInput("Escolha uma opção") match {
         case "1" =>
           printBoard(board)
-          runGame(board, points + selectWord(board, points)) // Continue running the game with the same board
+          runGame(board, points + selectWord(board, points, startTime)) // Continue running the game with the same board
         case "2" =>
           println(Console.RESET)
           println("Jogo reiniciado!")
@@ -110,7 +110,6 @@ object TextUI {
           runGame(board, points) // Continue running the game with the same board
       }
     }
-
     runGame(startGame(boardWidth, boardHeight, Text), 0) // Start running the game
   }
 }
