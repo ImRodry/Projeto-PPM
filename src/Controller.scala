@@ -97,9 +97,8 @@ class Controller {
       if (wordIndex != -1 && positions.length > wordIndex) {
         val wordPositions = positions(wordIndex)
         paintWordOnBoard(word, wordPositions)
-        palavraLabel.setStyle("-fx-text-fill: green") // Muda a cor do texto para verde
       } else {
-        palavraLabel.setStyle("-fx-text-fill: black") // Se a palavra não estiver no arquivo, mantenha a cor preta
+        palavraLabel.setStyle("-fx-text-fill: green") // Se a palavra não estiver no arquivo, mantenha a cor preta
       }
     } else {
       palavraLabel.setStyle("-fx-text-fill: red") // Muda a cor do texto para vermelho
@@ -110,7 +109,7 @@ class Controller {
   private def paintWordOnBoard(word: String, wordPositions: List[(Int, Int)]) = {
     for ((row, col) <- wordPositions) {
       val label = tabuleiroGridPane.getChildren.get(row * Utils.boardWidth + col).asInstanceOf[Label]
-      label.setTextFill(Color.GREENYELLOW) // Muda a cor do texto para verde
+      label.setTextFill(Color.LIMEGREEN) // Muda a cor do texto para verde
     }
   }
 
