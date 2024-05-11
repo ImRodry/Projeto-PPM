@@ -86,6 +86,7 @@ class Controller {
   }
 
   def onSelecionarPalavraClicked(): Unit = {
+    selecionarPalavraButton.setVisible(false) // Esconde o botão de selecionar palavra
     toggleTextFieldsAndButton(true)
   }
 
@@ -112,13 +113,12 @@ class Controller {
         } else if (word == thirdWord.getText()) {
           thirdWord.setStyle("-fx-text-fill: green")
         }
-      } else {
-        palavraLabel.setStyle("-fx-text-fill: green") // Se a palavra não estiver no arquivo, mantenha a cor preta
       }
-    } else {
-      palavraLabel.setStyle("-fx-text-fill: red") // Muda a cor do texto para vermelho
-      // Não esconda os campos de texto e o botão em caso de erro
-      // toggleTextFieldsAndButton(false)
+    }
+    else {
+      palavraLabel.setText("Errado")
+      palavraLabel.setStyle("-fx-text-fill: red")
+      palavraLabel.setVisible(true)
     }
     // Mantenha os campos de texto e o botão visíveis após um erro
     toggleTextFieldsAndButton(true)
