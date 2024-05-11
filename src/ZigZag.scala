@@ -99,6 +99,7 @@ object ZigZag {
 
   //T6
   def checkBoard(incompleteBoard: Board, words: List[String], boardType: BoardType, random: MyRandom): Board = {
+    System.out.println("Checking if the board is valid")
     val (board, newRandom) = completeBoardRandomly(board, random, randomChar)
     val coords = for {
       x <- 0 to 4
