@@ -1,5 +1,6 @@
 import BoardType._
 import Types.{Board, Direction}
+import Utils.readWordsAndPositions
 import ZigZag.play
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label, TextField}
@@ -38,8 +39,18 @@ class Controller {
   private var directionLegendaLabel: Label = _
   @FXML
   private var iniciarJogoButton: Button = _
+  @FXML
+  private var firstWord: Label = _
+  @FXML
+  private var secondWord: Label = _
+  @FXML
+  private var thirdWord: Label = _
 
   def onIniciarJogoClicked(): Unit = {
+    val (words, positions) = readWordsAndPositions("words.txt")
+    firstWord.setText(words(0))
+    secondWord.setText(words(1))
+    thirdWord.setText(words(2))
     reiniciarJogoButton.setVisible(true) // Mostra o botão de reiniciar jogo
     selecionarPalavraButton.setVisible(true) // Mostra o botão de selecionar palavra
     toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
@@ -57,6 +68,7 @@ class Controller {
       }
     }
   }
+
 
   def onReiniciarJogoClicked(): Unit = {
     toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
@@ -97,6 +109,14 @@ class Controller {
       if (wordIndex != -1 && positions.length > wordIndex) {
         val wordPositions = positions(wordIndex)
         paintWordOnBoard(word, wordPositions)
+        //pinta a firstWord, secondWord ou thirdWord
+        if (word == firstWord.getText()) {
+          firstWord.setStyle("-fx-text-fill: green")
+        } else if (word == secondWord.getText()) {
+          secondWord.setStyle("-fx-text-fill: green")
+        } else if (word == thirdWord.getText()) {
+          thirdWord.setStyle("-fx-text-fill: green")
+        }
       } else {
         palavraLabel.setStyle("-fx-text-fill: green") // Se a palavra não estiver no arquivo, mantenha a cor preta
       }
