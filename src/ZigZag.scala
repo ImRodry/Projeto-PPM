@@ -6,6 +6,8 @@ import BoardType._
 import scala.annotation.tailrec
 
 object ZigZag {
+  val startTime: Long = System.currentTimeMillis() // Inicia o cronômetro do jogo
+
   // T1
   def randomChar(rand: MyRandom): (Char, MyRandom) = {
     val (n, nextRand) = rand.nextInt
@@ -70,34 +72,41 @@ object ZigZag {
 
   //T5
   def play(board: Board, word: String, start: Coord2D, direction: Direction, boardType: BoardType): Boolean = {
+    checkWord(board, word, start, direction, boardType)
+  }
+
+  def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction, boardType: BoardType): Boolean = {
     val directions = Direction.values
-    System.out.println("Checking word: " + word + " at " + start)
-    def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction): Boolean = {
-      if (word.isEmpty) true
-      else {
-        val (row, col) = coord
-        if (board(row)(col) == word.head) {
-          val nextCoord = nextDirection match {
-            case North => (row - 1, col)
-            case South => (row + 1, col)
-            case East => (row, col + 1)
-            case West => (row, col - 1)
-            case NorthEast => (row - 1, col + 1)
-            case NorthWest => (row - 1, col - 1)
-            case SouthEast => (row + 1, col + 1)
-            case SouthWest => (row + 1, col - 1)
-          }
-          System.out.println("Checking letter: " + word.head + " at " + nextCoord + " with direction " + nextDirection)
-          if (inBounds(nextCoord, boardType)) {
-            directions.exists(direction => checkWord(board, word.tail, nextCoord, direction))
-          }
-          else false
-        } else false
-      }
+    if (word.isEmpty) true
+    else {
+      val (row, col) = coord
+      if (board(row)(col) == word.head) {
+        val nextCoord = nextDirection match {
+          case North => (row - 1, col)
+          case South => (row + 1, col)
+          case East => (row, col + 1)
+          case West => (row, col - 1)
+          case NorthEast => (row - 1, col + 1)
+          case NorthWest => (row - 1, col - 1)
+          case SouthEast => (row + 1, col + 1)
+          case SouthWest => (row + 1, col - 1)
+        }
+        if (inBounds(nextCoord, boardType)) {
+          directions.exists(direction => checkWord(board, word.tail, nextCoord, direction, boardType))
+        }
+        else false
+      } else false
     }
-    checkWord(board, word, start, direction)
   }
 
   //T6
-  
+
+  //T7
+  def getElapsedTime(): Long = {
+    System.currentTimeMillis() - startTime
+  }
+
+  def isGameOver(): Boolean = {
+    getElapsedTime() > 30000
+  }
 }

@@ -7,6 +7,7 @@ import scala.io.StdIn.readLine
 
 object TextUI {
   val (boardWidth, boardHeight) = getBoardSize()
+  val (correctWord, incorrectWord) = (500, 100)
 
   @tailrec
   def getBoardSize(asked: Boolean = false): (Int, Int) = {
@@ -19,7 +20,7 @@ object TextUI {
   }
 
   def mainMenu(): Unit = {
-    println("Bem-vindo ao jogo de palavras cruzadas!")
+    println("Menu do jogo das palavras cruzadas!")
     println("1. Selecionar palavra")
     println("2. Reiniciar jogo")
     println("3. Alterar cor do texto")
@@ -31,7 +32,7 @@ object TextUI {
     readLine().trim
   }
 
-  def selectWord(board: Board): Unit = {
+  def selectWord(board: Board, points: Int): Int = {
     val word = getInput("Digite a palavra que deseja selecionar").toUpperCase()
     val start = getInput("Digite a coordenada inicial no formato \"row,col\"").split(",")
     val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
@@ -39,25 +40,35 @@ object TextUI {
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
+    if (ZigZag.isGameOver()) {
+      println("Acabou o tempo!")
+      println("Pontuação final: " + points)
+      printBoard(board)
+      return -points
+    }
+
     if (ZigZag.play(board, word, startCoord, directionEnum, Text)) {
       println("A palavra está correta!")
+      correctWord
     } else {
       println("A palavra está incorreta!")
+      incorrectWord
     }
   }
 
   def main(args: Array[String]): Unit = {
-    def runGame(board: Board): Unit = {
+    def runGame(board: Board, points: Int): Unit = {
+      println("Pontuação: " + points)
       mainMenu()
       getInput("Escolha uma opção") match {
         case "1" =>
-          selectWord(board)
-          runGame(board) // Continue running the game with the same board
+          printBoard(board)
+          runGame(board, points + selectWord(board, points)) // Continue running the game with the same board
         case "2" =>
           println(Console.RESET)
           println("Jogo reiniciado!")
           printBoard(board)
-          runGame(board) // Continue running the game with the same board
+          runGame(board, 0) // Continue running the game with the same board
         case "3" =>
           println("Escolha uma das cores abaixo")
           println("1. Preto")
@@ -91,15 +102,15 @@ object TextUI {
             case _ =>
               println("Cor inválida")
           }
-          runGame(board) // Continue running the game with the same board
+          runGame(board, points) // Continue running the game with the same board
         case "4" =>
           println("Obrigado por jogar!")
         case _ =>
           println("Opção inválida")
-          runGame(board) // Continue running the game with the same board
+          runGame(board, points) // Continue running the game with the same board
       }
     }
 
-    runGame(startGame(boardWidth, boardHeight, Text)) // Start running the game
+    runGame(startGame(boardWidth, boardHeight, Text), 0) // Start running the game
   }
 }
