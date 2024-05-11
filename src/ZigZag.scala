@@ -6,6 +6,8 @@ import BoardType._
 import scala.annotation.tailrec
 
 object ZigZag {
+  private val directions = Direction.values
+
   // T1
   def randomChar(rand: MyRandom): (Char, MyRandom) = {
     val (n, nextRand) = rand.nextInt
@@ -70,16 +72,15 @@ object ZigZag {
 
   //T5
   def play(board: Board, word: String, start: Coord2D, direction: Direction, boardType: BoardType): Boolean = {
-    checkWord(board, word, start, direction, boardType)
+    checkWord(board, word, start, direction, List(start), boardType)
   }
 
-  def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction, boardType: BoardType): Boolean = {
-    val directions = Direction.values
+  def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction, checkedCoords: List[Coord2D], boardType: BoardType): Boolean = {
     if (word.isEmpty) true
     else {
       val (row, col) = coord
       if (board(row)(col) == word.head) {
-        val nextCoord = nextDirection match {
+        val nextCoord: Coord2D = nextDirection match {
           case North => (row - 1, col)
           case South => (row + 1, col)
           case East => (row, col + 1)
@@ -89,15 +90,38 @@ object ZigZag {
           case SouthEast => (row + 1, col + 1)
           case SouthWest => (row + 1, col - 1)
         }
-        if (inBounds(nextCoord, boardType)) {
-          directions.exists(direction => checkWord(board, word.tail, nextCoord, direction, boardType))
-        }
+        if (!checkedCoords.contains(nextCoord) && inBounds(nextCoord, boardType))
+          directions.exists(direction => checkWord(board, word.tail, nextCoord, direction, checkedCoords :+ nextCoord, boardType))
         else false
       } else false
     }
   }
 
   //T6
+  def checkBoard(incompleteBoard: Board, words: List[String], boardType: BoardType, random: MyRandom): Board = {
+    val (board, newRandom) = completeBoardRandomly(board, random, randomChar)
+    val coords = for {
+      x <- 0 to 4
+      y <- 0 to 4
+    } yield (x, y)
+
+    // Check if all words exist once and only once
+    val isValidBoard = words.forall { word =>
+      // Count how many times checkWord is true for all coords
+      val count = coords.flatMap { coord =>
+        // And for all directions in each coord
+        directions.map { direction =>
+          checkWord(board, word, coord, direction, List.empty[Coord2D], boardType)
+        }
+      }.count(identity) // count how many times checkWord returns true for each word
+
+      count == 1 // check if that value is more than 1 for each word
+    }
+    // If one of the words exists more than once, generate a new board from the newRandom
+    if (!isValidBoard) checkBoard(incompleteBoard, words, boardType, newRandom)
+    // Otherwise return the generated board
+    else board
+  }
 
   //T7
   def getElapsedTime(startTime: Long): Long = {
