@@ -49,16 +49,22 @@ object TextUI {
       getInput("Escolha uma opção") match {
         case "1" =>
           printBoard(board)
-          if (ZigZag.isGameOver(startTime)) {
-            println("Acabou o tempo!")
-            println("Pontuação final: " + points)
-          }
-          else if (selectWord(board)) {
-            println("A palavra está correta!")
-            runGame(board, points + correctWord, startTime) // Continue running the game with the same board
+          if (selectWord(board)) {
+            if (ZigZag.isGameOver(startTime)) {
+              println("Acabou o tempo!")
+              println("Pontuação final: " + points)
+            } else {
+              println("A palavra está correta!")
+              runGame(board, points + correctWord, startTime) // Continue running the game with the same board
+            }
           } else {
-            println("A palavra está incorreta!")
-            runGame(board, points + incorrectWord, startTime) // Continue running the game with the same board
+            if (ZigZag.isGameOver(startTime)) {
+              println("Acabou o tempo!")
+              println("Pontuação final: " + points)
+            } else {
+              println("A palavra está incorreta!")
+              runGame(board, points + incorrectWord, startTime) // Continue running the game with the same board
+            }
           }
         case "2" =>
           println(Console.RESET)
