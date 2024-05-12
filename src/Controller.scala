@@ -145,6 +145,7 @@ class Controller {
           if (label.getText == word)
             label.setTextFill(Color.LIMEGREEN)
         }
+        score += 500
       }
     } else {
       palavraLabel.setText("Errado")
