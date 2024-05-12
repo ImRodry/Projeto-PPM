@@ -79,7 +79,7 @@ object TextUI {
           println(Console.RESET)
           println("Jogo reiniciado!")
           printBoard(board)
-          runGame(game, 0, startTime = System.currentTimeMillis(), checkedWords) // Continue running the game with the same board
+          runGame(game, 0, startTime = System.currentTimeMillis(), List()) // Continue running the game with the same board
         case "3" =>
           println("Escolha uma das cores abaixo")
           println("1. Preto")
