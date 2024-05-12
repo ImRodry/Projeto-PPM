@@ -24,7 +24,7 @@ object Utils {
   }
 
   // Função para iniciar ou reiniciar o jogo
-  def startGame(width: Int, height: Int, boardType: BoardType): Board   = {
+  def startGame(width: Int, height: Int, boardType: BoardType): (Board, List[String], List[List[Coord2D]])   = {
     val board: Board = List.fill(height)(List.fill(width)('-')) // Tabuleiro vazio de 5x5
     val (words, positions) = readWordsAndPositions("words.txt") // Lê as palavras e posições do arquivo
     val newBoard = setBoardWithWords(board, words, positions) // Coloca as palavras no tabuleiro
@@ -32,9 +32,8 @@ object Utils {
     if (boardType == BoardType.Text) { // Imprime o tabuleiro se for do tipo Text
       println("Começou um jogo novo!")
       printBoard(randomizedBoard)
-      randomizedBoard
     }
-    else randomizedBoard // Retorna o tabuleiro
+    (randomizedBoard, words, positions) // Retorna o tabuleiro e as palavras
   }
 
   // Função para ler as palavras e posições do arquivo

@@ -32,30 +32,30 @@ object TextUI {
     readLine().trim
   }
 
-  def selectWord(board: Board): Boolean = {
+  def selectWord(board: Board, words: List[String]): Boolean = {
     val word = getInput("Digite a palavra que deseja selecionar").toUpperCase()
     val start = getInput("Digite a coordenada inicial no formato \"row,col\"").split(",")
     val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    ZigZag.play(board, word, startCoord, directionEnum, Text)
+    ZigZag.play(board, word, words, startCoord, directionEnum, Text)
   }
 
   def main(args: Array[String]): Unit = {
-    def runGame(board: Board, points: Int, startTime: Long): Unit = {
+    def runGame(board: Board, words: List[String], points: Int, startTime: Long): Unit = {
       println("Pontuação: " + points)
       mainMenu()
       getInput("Escolha uma opção") match {
         case "1" =>
           printBoard(board)
-          if (selectWord(board)) {
+          if (selectWord(board, words)) {
             if (ZigZag.isGameOver(startTime)) {
               println("Acabou o tempo!")
               println("Pontuação final: " + points)
             } else {
               println("A palavra está correta!")
-              runGame(board, points + correctWord, startTime) // Continue running the game with the same board
+              runGame(board, words, points + correctWord, startTime) // Continue running the game with the same board
             }
           } else {
             if (ZigZag.isGameOver(startTime)) {
@@ -63,14 +63,14 @@ object TextUI {
               println("Pontuação final: " + points)
             } else {
               println("A palavra está incorreta!")
-              runGame(board, points + incorrectWord, startTime) // Continue running the game with the same board
+              runGame(board, words, points + incorrectWord, startTime) // Continue running the game with the same board
             }
           }
         case "2" =>
           println(Console.RESET)
           println("Jogo reiniciado!")
           printBoard(board)
-          runGame(board, 0, startTime = System.currentTimeMillis()) // Continue running the game with the same board
+          runGame(board, words, 0, startTime = System.currentTimeMillis()) // Continue running the game with the same board
         case "3" =>
           println("Escolha uma das cores abaixo")
           println("1. Preto")
@@ -104,14 +104,15 @@ object TextUI {
             case _ =>
               println("Cor inválida")
           }
-          runGame(board, points, startTime) // Continue running the game with the same board
+          runGame(board, words, points, startTime) // Continue running the game with the same board
         case "4" =>
           println("Obrigado por jogar!")
         case _ =>
           println("Opção inválida")
-          runGame(board, points, startTime) // Continue running the game with the same board
+          runGame(board, words, points, startTime) // Continue running the game with the same board
       }
     }
-    runGame(startGame(boardWidth, boardHeight, Text), 0, startTime = System.currentTimeMillis()) // Start running the game
+    val startGameOutput = startGame(boardWidth, boardHeight, Text) // Save the output to then pass board and words to runGame
+    runGame(startGameOutput._1, startGameOutput._2, 0, System.currentTimeMillis()) // Start running the game
   }
 }

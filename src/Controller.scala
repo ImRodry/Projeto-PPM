@@ -12,9 +12,10 @@ import javafx.util.Duration
 
 class Controller {
   private var board: Board = _
+  private var words: List[String] = _
+  private var positions: List[List[(Int, Int)]] = _
 
   val startTime = System.currentTimeMillis()
-  val (words, positions) = Utils.readWordsAndPositions("words.txt")
   var score = 0
 
   lazy val timeline: Timeline = new Timeline()
@@ -71,13 +72,16 @@ class Controller {
 
   //Inicializa o jogo
   def onIniciarJogoClicked(): Unit = {
+    val startGameOutput = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)   // Inicia um novo jogo
+    board = startGameOutput._1
+    words = startGameOutput._2
+    positions = startGameOutput._3
     initializeWords()
     reiniciarJogoButton.setVisible(true)
     selecionarPalavraButton.setVisible(true)
     toggleTextFieldsAndButton(false)
     iniciarJogoButton.setVisible(false)
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
-    board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)   // Inicia um novo jogo
     // Preencher o GridPane com as novas letras
     for (i <- board.indices) {
       for (j <- board(i).indices) {
@@ -131,16 +135,15 @@ class Controller {
     val directionString = directionDropdown.getSelectionModel().getSelectedItem()
     val direction = Direction.withName(directionString)
     // Verifica se a palavra está no tabuleiro
-    if (play(board, word, coord2D, direction, GUI)) {
+    if (play(board, word, words, coord2D, direction, GUI)) {
       val wordIndex = words.indexOf(word)
-      if (wordIndex != -1 && positions.length > wordIndex) {
+      if (wordIndex != -1) {
         val wordPositions = positions(wordIndex)
         paintWordOnBoard(word, wordPositions)
         for (i <- 0 until wordsVBox.getChildren.size() - 1) {
           val label = wordsVBox.getChildren.get(i).asInstanceOf[Label]
-          if (label.getText == word) {
+          if (label.getText == word)
             label.setTextFill(Color.LIMEGREEN)
-          }
         }
       }
     } else {

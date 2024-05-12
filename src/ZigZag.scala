@@ -71,8 +71,9 @@ object ZigZag {
   }
 
   //T5
-  def play(board: Board, word: String, start: Coord2D, direction: Direction, boardType: BoardType): Boolean = {
-    checkWord(board, word, start, direction, List(start), boardType)
+  def play(board: Board, word: String, words: List[String], start: Coord2D, direction: Direction, boardType: BoardType): Boolean = {
+    if (!words.contains(word)) false
+    else checkWord(board, word, start, direction, List(start), boardType)
   }
 
   def checkWord(board: Board, word: String, coord: Coord2D, nextDirection: Direction, checkedCoords: List[Coord2D], boardType: BoardType): Boolean = {
