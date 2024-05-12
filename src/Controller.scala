@@ -2,7 +2,7 @@ import BoardType._
 import Types.{Board, Direction}
 import ZigZag._
 import javafx.fxml.FXML
-import javafx.scene.control.{Button, ComboBox, Label, TextField}
+import javafx.scene.control.{Alert, Button, ButtonType, ComboBox, Label, TextField}
 import javafx.scene.layout.{GridPane, VBox}
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
@@ -108,6 +108,7 @@ class Controller {
         timeValueLabel.setText(timeRemaining / 1000 + "s")
       }
     }))
+
     scoreTextLabel.setVisible(true)
     scoreValueLabel.setText(score.toString)
     timeline.setCycleCount(Animation.INDEFINITE)
@@ -143,7 +144,7 @@ class Controller {
         if (wordIndex != -1) {
           val wordPositions = positions(wordIndex)
           paintWordOnBoard(word, wordPositions)
-          for (i <- 0 until wordsVBox.getChildren.size() - 1) {
+          for (i <- 0 until wordsVBox.getChildren.size()) {
             val label = wordsVBox.getChildren.get(i).asInstanceOf[Label]
             if (label.getText == word)
               label.setTextFill(Color.LIMEGREEN)
@@ -164,6 +165,7 @@ class Controller {
     }
     scoreValueLabel.setText(score.toString)
     toggleTextFieldsAndButton(true)
+    if (checkedWords.length == words.length) sendAlertAndEnd("Encontrou todas as palavras!")
   }
 
   private def paintWordOnBoard(word: String, wordPositions: List[(Int, Int)]) = {
@@ -203,6 +205,15 @@ class Controller {
       label.setVisible(true)
       label.setTextFill(Color.BLACK)
       wordsVBox.getChildren().add(i, label) // set at that index to push the other label to the end
+    }
+  }
+
+  def sendAlertAndEnd(message: String): Unit = {
+    val alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
+    alert.showAndWait();
+
+    if (alert.getResult() == ButtonType.OK) {
+      System.exit(0);
     }
   }
 
