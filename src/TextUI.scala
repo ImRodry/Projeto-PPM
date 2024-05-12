@@ -48,77 +48,81 @@ object TextUI {
       val board = game._1
       val words = game._2
       val positions = game._3
-      println("Pontuação: " + points)
-      mainMenu()
-      getInput("Escolha uma opção") match {
-        case "1" =>
-          printBoard(board)
-          val selectedWord = selectWord(board, words)
-          if (selectedWord.isDefined) {
-            val word = selectedWord.get
-            if (ZigZag.isGameOver(startTime)) {
-              println("Acabou o tempo!")
-              println("Pontuação final: " + points)
-            } else if (!checkedWords.contains(word)) {
-              println("A palavra está correta!")
-              runGame(game, points + correctWord, startTime, checkedWords :+ word) // Continue running the game with the same board
+      if (ZigZag.isGameOver(startTime, words, checkedWords)) {
+        println("Pontuação final: " + points)
+      }
+      else {
+        println("Pontuação: " + points)
+        mainMenu()
+        getInput("Escolha uma opção") match {
+          case "1" =>
+            printBoard(board)
+            val selectedWord = selectWord(board, words)
+            if (selectedWord.isDefined) {
+              val word = selectedWord.get
+              if (ZigZag.isGameOver(startTime, words, checkedWords)) {
+                println("Pontuação final: " + points)
+              } else if (!checkedWords.contains(word)) {
+                println("A palavra está correta!")
+                runGame(game, points + correctWord, startTime, checkedWords :+ word) // Continue running the game with the same board
+              } else {
+                println("A palavra já foi selecionada!")
+                runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
+              }
             } else {
-              println("A palavra já foi selecionada!")
-              runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
+              if (ZigZag.isGameOver(startTime, words, checkedWords)) {
+                println("Acabou o tempo!")
+                println("Pontuação final: " + points)
+              } else {
+                println("A palavra está incorreta!")
+                runGame(game, points + incorrectWord, startTime, checkedWords) // Continue running the game with the same board
+              }
             }
-          } else {
-            if (ZigZag.isGameOver(startTime)) {
-              println("Acabou o tempo!")
-              println("Pontuação final: " + points)
-            } else {
-              println("A palavra está incorreta!")
-              runGame(game, points + incorrectWord, startTime, checkedWords) // Continue running the game with the same board
+          case "2" =>
+            println(Console.RESET)
+            println("Jogo reiniciado!")
+            printBoard(board)
+            runGame(game, 0, startTime = System.currentTimeMillis(), List()) // Continue running the game with the same board
+          case "3" =>
+            println("Escolha uma das cores abaixo")
+            println("1. Preto")
+            println("2. Vermelho")
+            println("3. Verde")
+            println("4. Amarelo")
+            println("5. Azul")
+            println("6. Roxo")
+            println("7. Ciano")
+            println("8. Branco")
+            println("9. Reset")
+            getInput("Escolha uma cor") match {
+              case "1" =>
+                println(Console.BLACK)
+              case "2" =>
+                println(Console.RED)
+              case "3" =>
+                println(Console.GREEN)
+              case "4" =>
+                println(Console.YELLOW)
+              case "5" =>
+                println(Console.BLUE)
+              case "6" =>
+                println(Console.MAGENTA)
+              case "7" =>
+                println(Console.CYAN)
+              case "8" =>
+                println(Console.WHITE)
+              case "9" =>
+                println(Console.RESET)
+              case _ =>
+                println("Cor inválida")
             }
-          }
-        case "2" =>
-          println(Console.RESET)
-          println("Jogo reiniciado!")
-          printBoard(board)
-          runGame(game, 0, startTime = System.currentTimeMillis(), List()) // Continue running the game with the same board
-        case "3" =>
-          println("Escolha uma das cores abaixo")
-          println("1. Preto")
-          println("2. Vermelho")
-          println("3. Verde")
-          println("4. Amarelo")
-          println("5. Azul")
-          println("6. Roxo")
-          println("7. Ciano")
-          println("8. Branco")
-          println("9. Reset")
-          getInput("Escolha uma cor") match {
-            case "1" =>
-              println(Console.BLACK)
-            case "2" =>
-              println(Console.RED)
-            case "3" =>
-              println(Console.GREEN)
-            case "4" =>
-              println(Console.YELLOW)
-            case "5" =>
-              println(Console.BLUE)
-            case "6" =>
-              println(Console.MAGENTA)
-            case "7" =>
-              println(Console.CYAN)
-            case "8" =>
-              println(Console.WHITE)
-            case "9" =>
-              println(Console.RESET)
-            case _ =>
-              println("Cor inválida")
-          }
-          runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
-        case "4" =>
-          println("Obrigado por jogar!")
-        case _ =>
-          println("Opção inválida")
-          runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
+            runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
+          case "4" =>
+            println("Obrigado por jogar!")
+          case _ =>
+            println("Opção inválida")
+            runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
+        }
       }
     }
     runGame(startGame(boardWidth, boardHeight, Text), 0, System.currentTimeMillis(), List()) // Start running the game

@@ -101,7 +101,7 @@ class Controller {
     timeline.getKeyFrames.setAll(new KeyFrame(Duration.seconds(1), _ => {   // Atualiza o tempo a cada segundo
       val elapsedTime = getElapsedTime(startTime)     // Calcula o tempo decorrido
       val timeRemaining = 120000 - elapsedTime        // Calcula o tempo restante
-      if (isGameOver(startTime)) {
+      if (isGameOver(startTime, words, checkedWords)) {
         timeline.stop()
         timeValueLabel.setText("Acabou!")
       } else {

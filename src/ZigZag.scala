@@ -100,7 +100,7 @@ object ZigZag {
 
   //T6
   def checkBoard(incompleteBoard: Board, words: List[String], boardType: BoardType, random: MyRandom): Board = {
-    println("Checking if the board is valid")
+    println("A verificar o tabuleiro...")
     val (board, newRandom) = completeBoardRandomly(incompleteBoard, random, randomChar)
     val coords = (0 to 4).flatMap(x => (0 to 4).map(y => (x, y)))
 
@@ -128,7 +128,13 @@ object ZigZag {
     System.currentTimeMillis() - startTime
   }
 
-  def isGameOver(startTime: Long): Boolean = {
-    getElapsedTime(startTime) > 120000
+  def isGameOver(startTime: Long, words: List[String], checkedWords: List[String]): Boolean = {
+    if (getElapsedTime(startTime) > 120000) {
+      println("Acabou o tempo!")
+      true
+    } else if (words.length == checkedWords.length) {
+      println("Descobriu todas as palavras!")
+      true
+    } else false
   }
 }
