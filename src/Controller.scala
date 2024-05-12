@@ -17,6 +17,8 @@ class Controller {
   val (words, positions) = Utils.readWordsAndPositions("words.txt")
   var score = 0
 
+  lazy val timeline: Timeline = new Timeline()
+
 
   @FXML
   private var reiniciarJogoButton: Button = _
@@ -57,7 +59,7 @@ class Controller {
   @FXML
   private var scoreValueLabel: Label = _
 
-
+  // Inicializa o controlador
   def initialize(): Unit = {
     toggleTextFieldsAndButton(false)
     selecionarPalavraButton.setVisible(false)
@@ -67,38 +69,33 @@ class Controller {
     scoreTextLabel.setVisible(false)
   }
 
-  // Crie um Timeline como membro da classe
-  lazy val timeline: Timeline = new Timeline()
-
+  //Inicializa o jogo
   def onIniciarJogoClicked(): Unit = {
     initializeWords()
-    reiniciarJogoButton.setVisible(true) // Mostra o botão de reiniciar jogo
-    selecionarPalavraButton.setVisible(true) // Mostra o botão de selecionar palavra
-    toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
-    iniciarJogoButton.setVisible(false) // Esconde o botão de iniciar jogo
+    reiniciarJogoButton.setVisible(true)
+    selecionarPalavraButton.setVisible(true)
+    toggleTextFieldsAndButton(false)
+    iniciarJogoButton.setVisible(false)
     tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
-    board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)          // Inicia um novo jogo
+    board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)   // Inicia um novo jogo
     // Preencher o GridPane com as novas letras
     for (i <- board.indices) {
       for (j <- board(i).indices) {
         val letter = board(i)(j)
         val label = new Label(letter.toString)
-        label.setFont(new Font("System", 40))      // Define o tamanho da fonte para 40
+        label.setFont(new Font("System", 40))
         tabuleiroGridPane.add(label, j, i)
       }
     }
-
-    // Inicie o tempo
+    // Inicia o timer
     val startTime = System.currentTimeMillis()
-
-    // Pare o Timeline anterior
+    // Para a timeline anterior
     timeline.stop()
-
-    // Defina o KeyFrame do Timeline
+    // Define o KeyFrame da timeline
     timeTextLabel.setVisible(true)
-    timeline.getKeyFrames.setAll(new KeyFrame(Duration.seconds(1), _ => {
-      val elapsedTime = getElapsedTime(startTime)
-      val timeRemaining = 120000 - elapsedTime
+    timeline.getKeyFrames.setAll(new KeyFrame(Duration.seconds(1), _ => {   // Atualiza o tempo a cada segundo
+      val elapsedTime = getElapsedTime(startTime)     // Calcula o tempo decorrido
+      val timeRemaining = 120000 - elapsedTime        // Calcula o tempo restante
       if (isGameOver(startTime)) {
         timeline.stop()
         timeValueLabel.setText("Acabou!")
@@ -108,37 +105,37 @@ class Controller {
     }))
     scoreTextLabel.setVisible(true)
     scoreValueLabel.setText(score.toString)
-
     timeline.setCycleCount(Animation.INDEFINITE)
     timeline.play()
   }
 
 
+  // Seleção do botão de "Reiniciar Jogo"
   def onReiniciarJogoClicked(): Unit = {
     onIniciarJogoClicked()
   }
 
+  // Seleção do botão de "Selecionar Palavra"
   def onSelecionarPalavraClicked(): Unit = {
     selecionarPalavraButton.setVisible(false) // Esconde o botão de selecionar palavra
     toggleTextFieldsAndButton(true)
   }
 
+  // Seleção do botão de "Selecionar"
   def onSelecionarClicked(): Unit = {
-    palavraLabel.setVisible(false)    // Esconde a palavra anterior
+    palavraLabel.setVisible(false)
     val word = palavraTextField.getText().toUpperCase()
-    val row = rowTextField.getText.trim.toInt // Suponha que rowTextField é o campo de texto para a linha
-    val column = colTextField.getText.trim.toInt // Suponha que columnTextField é o campo de texto para a coluna
-    val coord2D = (row, column)
+    val row = rowTextField.getText.trim.toInt       // extrai a linha
+    val column = colTextField.getText.trim.toInt    // extrai a coluna
+    val coord2D = (row, column)                     // cria a coordenada 2D
     val directionString = directionDropdown.getSelectionModel().getSelectedItem()
     val direction = Direction.withName(directionString)
-
     // Verifica se a palavra está no tabuleiro
     if (play(board, word, coord2D, direction, GUI)) {
       val wordIndex = words.indexOf(word)
       if (wordIndex != -1 && positions.length > wordIndex) {
         val wordPositions = positions(wordIndex)
         paintWordOnBoard(word, wordPositions)
-        // Pinta a label com a word correspondente (loop até size - 1 pois a última é o texto de Errado)
         for (i <- 0 until wordsVBox.getChildren.size() - 1) {
           val label = wordsVBox.getChildren.get(i).asInstanceOf[Label]
           if (label.getText == word) {
@@ -152,10 +149,8 @@ class Controller {
       palavraLabel.setVisible(true)
       score -= 100
     }
-    // Mantenha os campos de texto e o botão visíveis após um erro
     toggleTextFieldsAndButton(true)
   }
-
 
   private def paintWordOnBoard(word: String, wordPositions: List[(Int, Int)]) = {
     for ((row, col) <- wordPositions) {
@@ -164,9 +159,7 @@ class Controller {
     }
   }
 
-
-
-  // Set visibility of TextField and Button
+  // Visibilidade dos campos de texto e botoes
   def toggleTextFieldsAndButton(b:Boolean): Unit = {
     palavraTextField.setVisible(b)
     selecionarButton.setVisible(b)
@@ -185,6 +178,7 @@ class Controller {
 
   // Inicializa as palavras
   def initializeWords(): Unit = {
+    wordsVBox.getChildren.clear() // Limpa as palavras antigas
     for (i <- words.indices) {
       val label = new Label(words(i))
       label.setAlignment(Pos.CENTER)
@@ -197,4 +191,5 @@ class Controller {
       wordsVBox.getChildren().add(i, label) // set at that index to push the other label to the end
     }
   }
+
 }
