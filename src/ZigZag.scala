@@ -108,7 +108,6 @@ object ZigZag {
       // Count how many times checkWord is true for all coords
       val count = coords.flatMap { coord =>
         // And for all directions in each coord
-        println("Checking word " + word + " at coord " + coord)
         directions.map { direction =>
           checkWord(board, word, coord, direction, List.empty[Coord2D], boardType)
         }

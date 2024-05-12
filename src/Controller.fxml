@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="420.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<BorderPane prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <top>
       <HBox prefHeight="59.0" prefWidth="718.0">
          <Button fx:id="iniciarJogoButton" mnemonicParsing="false" onMouseClicked="#onIniciarJogoClicked" prefHeight="38.0" prefWidth="108.0" text="Iniciar Jogo">
@@ -157,8 +157,9 @@
       </GridPane>
    </center>
    <right>
-      <VBox fx:id="wordsVBox" maxHeight="-Infinity" prefHeight="320.0" prefWidth="138.0" spacing="10" BorderPane.alignment="CENTER">
-         <Label fx:id="palavraLabel" alignment="CENTER" layoutX="10.0" layoutY="132.0" prefHeight="0.0" prefWidth="138.0">
+      <VBox maxHeight="-Infinity" prefHeight="320.0" prefWidth="138.0" spacing="10" BorderPane.alignment="CENTER">
+         <VBox fx:id="wordsVBox" prefHeight="51.0" prefWidth="138.0" />
+         <Label fx:id="palavraLabel" alignment="CENTER" prefHeight="0.0" prefWidth="138.0">
             <font>
                <Font size="24.0" />
             </font>

@@ -5,7 +5,7 @@ import javafx.stage.Stage
 
 class Main extends Application {
   override def start(primaryStage: Stage): Unit = {
-    primaryStage.setTitle("Jogo de Palavras")
+    primaryStage.setTitle("Sopa de Letras ZigZag")
     val fxmlLoader = new FXMLLoader(getClass.getResource("Controller.fxml"))
     val mainViewRoot: Parent = fxmlLoader.load()
 
@@ -14,6 +14,9 @@ class Main extends Application {
 
     val scene = new Scene(mainViewRoot)
     primaryStage.setScene(scene)
+    // Valores considerados ótimos para os elementos no ecrã
+    primaryStage.setMinWidth(750)
+    primaryStage.setMinHeight(500)
     primaryStage.show()
   }
 }
