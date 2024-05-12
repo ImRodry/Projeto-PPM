@@ -11,12 +11,12 @@ object TextUI {
 
   @tailrec
   def getBoardSize(asked: Boolean = false): (Int, Int) = {
-    if (asked) println("Tamanho inválido! A largura e o comprimento do tabuleiro devem ser maiores ou iguais a 5.")
+    if (asked) println("Tamanho inválido! A altura e o comprimento do tabuleiro devem ser maiores ou iguais a 5.")
     val boardWidth = getInput("Insira o comprimento do tabuleiro").toInt
-    val boardLength = getInput("Insira a largura do tabuleiro").toInt
+    val boardHeight = getInput("Insira a altura do tabuleiro").toInt
 
-    if (boardLength < 5 || boardWidth < 5) getBoardSize(true)
-    else (boardWidth, boardLength)
+    if (boardHeight < 5 || boardWidth < 5) getBoardSize(true)
+    else (boardWidth, boardHeight)
   }
 
   def mainMenu(): Unit = {
@@ -32,41 +32,39 @@ object TextUI {
     readLine().trim
   }
 
-  def selectWord(board: Board, points: Int, startTime: Long): Int = {
+  def selectWord(board: Board): Boolean = {
     val word = getInput("Digite a palavra que deseja selecionar").toUpperCase()
     val start = getInput("Digite a coordenada inicial no formato \"row,col\"").split(",")
     val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    if (ZigZag.play(board, word, startCoord, directionEnum, Text)) {
-      println("A palavra está correta!")
-      correctWord
-    } else {
-      println("A palavra está incorreta!")
-      incorrectWord
-    }
+    ZigZag.play(board, word, startCoord, directionEnum, Text)
   }
 
   def main(args: Array[String]): Unit = {
-    val startTime = System.currentTimeMillis()
-    def runGame(board: Board, points: Int): Unit = {
-      if (ZigZag.isGameOver(startTime)) {
-        println("Acabou o tempo!")
-        println("Pontuação final: " + points)
-        return
-      }
+    def runGame(board: Board, points: Int, startTime: Long): Unit = {
       println("Pontuação: " + points)
       mainMenu()
       getInput("Escolha uma opção") match {
         case "1" =>
           printBoard(board)
-          runGame(board, points + selectWord(board, points, startTime)) // Continue running the game with the same board
+          if (ZigZag.isGameOver(startTime)) {
+            println("Acabou o tempo!")
+            println("Pontuação final: " + points)
+          }
+          else if (selectWord(board)) {
+            println("A palavra está correta!")
+            runGame(board, points + correctWord, startTime) // Continue running the game with the same board
+          } else {
+            println("A palavra está incorreta!")
+            runGame(board, points + incorrectWord, startTime) // Continue running the game with the same board
+          }
         case "2" =>
           println(Console.RESET)
           println("Jogo reiniciado!")
           printBoard(board)
-          runGame(board, 0) // Continue running the game with the same board
+          runGame(board, 0, startTime = System.currentTimeMillis()) // Continue running the game with the same board
         case "3" =>
           println("Escolha uma das cores abaixo")
           println("1. Preto")
@@ -100,14 +98,14 @@ object TextUI {
             case _ =>
               println("Cor inválida")
           }
-          runGame(board, points) // Continue running the game with the same board
+          runGame(board, points, startTime) // Continue running the game with the same board
         case "4" =>
           println("Obrigado por jogar!")
         case _ =>
           println("Opção inválida")
-          runGame(board, points) // Continue running the game with the same board
+          runGame(board, points, startTime) // Continue running the game with the same board
       }
     }
-    runGame(startGame(boardWidth, boardHeight, Text), 0) // Start running the game
+    runGame(startGame(boardWidth, boardHeight, Text), 0, startTime = System.currentTimeMillis()) // Start running the game
   }
 }
