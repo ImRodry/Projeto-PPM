@@ -159,7 +159,7 @@
    <right>
       <VBox maxHeight="-Infinity" prefHeight="320.0" prefWidth="138.0" spacing="10" BorderPane.alignment="CENTER">
          <VBox fx:id="wordsVBox" prefHeight="51.0" prefWidth="138.0" />
-         <Label fx:id="palavraLabel" alignment="CENTER" prefHeight="0.0" prefWidth="138.0">
+         <Label fx:id="palavraLabel" alignment="CENTER" prefHeight="95.0" prefWidth="138.0" textAlignment="CENTER">
             <font>
                <Font size="24.0" />
             </font>

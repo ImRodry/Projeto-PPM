@@ -14,6 +14,7 @@ class Controller {
   private var board: Board = _
   private var words: List[String] = _
   private var positions: List[List[(Int, Int)]] = _
+  private var checkedWords: List[String] = Nil
 
   val startTime = System.currentTimeMillis()
   var score = 0
@@ -117,6 +118,7 @@ class Controller {
   // Seleção do botão de "Reiniciar Jogo"
   def onReiniciarJogoClicked(): Unit = {
     onIniciarJogoClicked()
+    checkedWords = Nil
   }
 
   // Seleção do botão de "Selecionar Palavra"
@@ -136,16 +138,23 @@ class Controller {
     val direction = Direction.withName(directionString)
     // Verifica se a palavra está no tabuleiro
     if (play(board, word, words, coord2D, direction, GUI)) {
-      val wordIndex = words.indexOf(word)
-      if (wordIndex != -1) {
-        val wordPositions = positions(wordIndex)
-        paintWordOnBoard(word, wordPositions)
-        for (i <- 0 until wordsVBox.getChildren.size() - 1) {
-          val label = wordsVBox.getChildren.get(i).asInstanceOf[Label]
-          if (label.getText == word)
-            label.setTextFill(Color.LIMEGREEN)
+      if (!checkedWords.contains(word)) {
+        val wordIndex = words.indexOf(word)
+        if (wordIndex != -1) {
+          val wordPositions = positions(wordIndex)
+          paintWordOnBoard(word, wordPositions)
+          for (i <- 0 until wordsVBox.getChildren.size() - 1) {
+            val label = wordsVBox.getChildren.get(i).asInstanceOf[Label]
+            if (label.getText == word)
+              label.setTextFill(Color.LIMEGREEN)
+          }
+          score += 500
+          checkedWords = checkedWords :+ word
         }
-        score += 500
+      } else {
+        palavraLabel.setText("Palavra já\nselecionada") // newline porque de outra forma não cabia
+        palavraLabel.setStyle("-fx-text-fill: red")
+        palavraLabel.setVisible(true)
       }
     } else {
       palavraLabel.setText("Errado")
