@@ -1,15 +1,19 @@
 import BoardType._
 import Types.{Board, Direction}
 import Utils.readWordsAndPositions
-import ZigZag.play
+import ZigZag._
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label, TextField}
 import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
+import javafx.animation.{Animation, KeyFrame, Timeline}
+import javafx.util.Duration
 
 class Controller {
   private var board: Board = _
+
+  val startTime = System.currentTimeMillis()
 
   @FXML
   private var reiniciarJogoButton: Button = _
@@ -45,12 +49,14 @@ class Controller {
   private var secondWord: Label = _
   @FXML
   private var thirdWord: Label = _
+  @FXML
+  private var timeLabel: Label = _
+
+  // Crie um Timeline como membro da classe
+  lazy val timeline: Timeline = new Timeline()
 
   def onIniciarJogoClicked(): Unit = {
-    val (words, positions) = readWordsAndPositions("words.txt")
-    firstWord.setText(words(0))
-    secondWord.setText(words(1))
-    thirdWord.setText(words(2))
+    initializeWords()
     reiniciarJogoButton.setVisible(true) // Mostra o botão de reiniciar jogo
     selecionarPalavraButton.setVisible(true) // Mostra o botão de selecionar palavra
     toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
@@ -66,23 +72,32 @@ class Controller {
         tabuleiroGridPane.add(label, j, i)
       }
     }
+
+    // Inicie o tempo
+    val startTime = System.currentTimeMillis()
+
+    // Pare o Timeline anterior
+    timeline.stop()
+
+    // Defina o KeyFrame do Timeline
+    timeline.getKeyFrames.setAll(new KeyFrame(Duration.seconds(1), _ => {
+      val elapsedTime = getElapsedTime(startTime)
+      val timeRemaining = 30000 - elapsedTime
+      if (isGameOver(startTime)) {
+        timeline.stop()
+        timeLabel.setText("Acabou!")
+      } else {
+        timeLabel.setText(timeRemaining / 1000 + "s")
+      }
+    }))
+
+    timeline.setCycleCount(Animation.INDEFINITE)
+    timeline.play()
   }
 
 
   def onReiniciarJogoClicked(): Unit = {
-    toggleTextFieldsAndButton(false)   // Esconde o TextField e o Button
-    palavraLabel.setVisible(false)    // Esconde a palavra anterior
-    tabuleiroGridPane.getChildren.clear() // Limpa o tabuleiro atual
-    board = Utils.startGame(Utils.boardWidth, Utils.boardHeight, GUI)          // Inicia um novo jogo
-    // Preencher o GridPane com as novas letras
-    for (i <- board.indices) {
-      for (j <- board(i).indices) {
-        val letter = board(i)(j)
-        val label = new Label(letter.toString)
-        label.setFont(new Font("System", 40))      // Define o tamanho da fonte para 40
-        tabuleiroGridPane.add(label, j, i)
-      }
-    }
+    onIniciarJogoClicked()
   }
 
   def onSelecionarPalavraClicked(): Unit = {
@@ -91,6 +106,7 @@ class Controller {
   }
 
   def onSelecionarClicked(): Unit = {
+    palavraLabel.setVisible(false)    // Esconde a palavra anterior
     val word = palavraTextField.getText().toUpperCase()
     val row = rowTextField.getText.trim.toInt // Suponha que rowTextField é o campo de texto para a linha
     val column = colTextField.getText.trim.toInt // Suponha que columnTextField é o campo de texto para a coluna
@@ -107,11 +123,11 @@ class Controller {
         paintWordOnBoard(word, wordPositions)
         //pinta a firstWord, secondWord ou thirdWord
         if (word == firstWord.getText()) {
-          firstWord.setStyle("-fx-text-fill: green")
+          firstWord.setTextFill(Color.LIMEGREEN)
         } else if (word == secondWord.getText()) {
-          secondWord.setStyle("-fx-text-fill: green")
+          secondWord.setTextFill(Color.LIMEGREEN)
         } else if (word == thirdWord.getText()) {
-          thirdWord.setStyle("-fx-text-fill: green")
+          thirdWord.setTextFill(Color.LIMEGREEN)
         }
       }
     }
@@ -149,5 +165,19 @@ class Controller {
     rowTextField.clear()
     colTextField.clear()
     directionTextField.clear()
+  }
+
+  // Inicializa as palavras
+  def initializeWords(): Unit = {
+    val (words, positions) = readWordsAndPositions("words.txt")
+    firstWord.setText(words(0))
+    secondWord.setText(words(1))
+    thirdWord.setText(words(2))
+    firstWord.setVisible(true)
+    secondWord.setVisible(true)
+    thirdWord.setVisible(true)
+    firstWord.setTextFill(Color.BLACK)
+    secondWord.setTextFill(Color.BLACK)
+    thirdWord.setTextFill(Color.BLACK)
   }
 }
