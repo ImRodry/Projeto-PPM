@@ -32,30 +32,39 @@ object TextUI {
     readLine().trim
   }
 
-  def selectWord(board: Board, words: List[String]): Boolean = {
+  def selectWord(board: Board, words: List[String]): Option[String] = {
     val word = getInput("Digite a palavra que deseja selecionar").toUpperCase()
     val start = getInput("Digite a coordenada inicial no formato \"row,col\"").split(",")
     val direction = getInput("Digite a direção (North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest)")
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    ZigZag.play(board, word, words, startCoord, directionEnum, Text)
+    if (ZigZag.play(board, word, words, startCoord, directionEnum, Text)) Some(word)
+    else None
   }
 
   def main(args: Array[String]): Unit = {
-    def runGame(board: Board, words: List[String], points: Int, startTime: Long): Unit = {
+    def runGame(game: (Board, List[String], List[List[Coord2D]]), points: Int, startTime: Long, checkedWords: List[String]): Unit = {
+      val board = game._1
+      val words = game._2
+      val positions = game._3
       println("Pontuação: " + points)
       mainMenu()
       getInput("Escolha uma opção") match {
         case "1" =>
           printBoard(board)
-          if (selectWord(board, words)) {
+          val selectedWord = selectWord(board, words)
+          if (selectedWord.isDefined) {
+            val word = selectedWord.get
             if (ZigZag.isGameOver(startTime)) {
               println("Acabou o tempo!")
               println("Pontuação final: " + points)
-            } else {
+            } else if (!checkedWords.contains(word)) {
               println("A palavra está correta!")
-              runGame(board, words, points + correctWord, startTime) // Continue running the game with the same board
+              runGame(game, points + correctWord, startTime, checkedWords :+ word) // Continue running the game with the same board
+            } else {
+              println("A palavra já foi selecionada!")
+              runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
             }
           } else {
             if (ZigZag.isGameOver(startTime)) {
@@ -63,14 +72,14 @@ object TextUI {
               println("Pontuação final: " + points)
             } else {
               println("A palavra está incorreta!")
-              runGame(board, words, points + incorrectWord, startTime) // Continue running the game with the same board
+              runGame(game, points + incorrectWord, startTime, checkedWords) // Continue running the game with the same board
             }
           }
         case "2" =>
           println(Console.RESET)
           println("Jogo reiniciado!")
           printBoard(board)
-          runGame(board, words, 0, startTime = System.currentTimeMillis()) // Continue running the game with the same board
+          runGame(game, 0, startTime = System.currentTimeMillis(), checkedWords) // Continue running the game with the same board
         case "3" =>
           println("Escolha uma das cores abaixo")
           println("1. Preto")
@@ -104,15 +113,14 @@ object TextUI {
             case _ =>
               println("Cor inválida")
           }
-          runGame(board, words, points, startTime) // Continue running the game with the same board
+          runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
         case "4" =>
           println("Obrigado por jogar!")
         case _ =>
           println("Opção inválida")
-          runGame(board, words, points, startTime) // Continue running the game with the same board
+          runGame(game, points, startTime, checkedWords) // Continue running the game with the same board
       }
     }
-    val startGameOutput = startGame(boardWidth, boardHeight, Text) // Save the output to then pass board and words to runGame
-    runGame(startGameOutput._1, startGameOutput._2, 0, System.currentTimeMillis()) // Start running the game
+    runGame(startGame(boardWidth, boardHeight, Text), 0, System.currentTimeMillis(), List()) // Start running the game
   }
 }
