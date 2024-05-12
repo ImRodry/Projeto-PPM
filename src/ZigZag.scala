@@ -99,25 +99,24 @@ object ZigZag {
 
   //T6
   def checkBoard(incompleteBoard: Board, words: List[String], boardType: BoardType, random: MyRandom): Board = {
-    System.out.println("Checking if the board is valid")
+    println("Checking if the board is valid")
     val (board, newRandom) = completeBoardRandomly(incompleteBoard, random, randomChar)
-    val coords = for {
-      x <- 0 to 4
-      y <- 0 to 4
-    } yield (x, y)
+    val coords = (0 to 4).flatMap(x => (0 to 4).map(y => (x, y)))
 
     // Check if all words exist once and only once
-    val isValidBoard = words.forall { word =>
+    val isValidBoard = words.foldLeft(true) { (acc, word) =>
       // Count how many times checkWord is true for all coords
       val count = coords.flatMap { coord =>
         // And for all directions in each coord
+        println("Checking word " + word + " at coord " + coord)
         directions.map { direction =>
           checkWord(board, word, coord, direction, List.empty[Coord2D], boardType)
         }
       }.count(identity) // count how many times checkWord returns true for each word
 
-      count == 1 // check if that value is more than 1 for each word
+      acc && (count == 1) // check if that value is more than 1 for each word
     }
+
     // If one of the words exists more than once, generate a new board from the newRandom
     if (!isValidBoard) checkBoard(incompleteBoard, words, boardType, newRandom)
     // Otherwise return the generated board
