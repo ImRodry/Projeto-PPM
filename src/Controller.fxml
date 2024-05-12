@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -16,7 +18,7 @@
                <Font size="16.0" />
             </font>
          </Button>
-         <Button fx:id="selecionarPalavraButton" mnemonicParsing="false" onMouseClicked="#onSelecionarPalavraClicked" text="Selecionar palavra" visible="false">
+         <Button fx:id="selecionarPalavraButton" mnemonicParsing="false" onMouseClicked="#onSelecionarPalavraClicked" text="Selecionar palavra">
             <font>
                <Font size="16.0" />
             </font>
@@ -24,7 +26,7 @@
                <Insets left="10.0" top="10.0" />
             </HBox.margin>
          </Button>
-         <Button fx:id="reiniciarJogoButton" mnemonicParsing="false" onMouseClicked="#onReiniciarJogoClicked" text="Reiniciar jogo" visible="false">
+         <Button fx:id="reiniciarJogoButton" mnemonicParsing="false" onMouseClicked="#onReiniciarJogoClicked" text="Reiniciar jogo">
             <font>
                <Font size="16.0" />
             </font>
@@ -32,14 +34,14 @@
                <Insets left="20.0" top="10.0" />
             </HBox.margin>
          </Button>
-         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="122.0" text="Tempo Restante:" textAlignment="CENTER">
+         <Label fx:id="timeTextLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="122.0" text="Tempo Restante:" textAlignment="CENTER">
             <font>
                <Font size="13.0" />
             </font>
             <padding>
                <Insets bottom="10.0" left="10.0" right="10.0" top="18.0" />
             </padding></Label>
-         <Label fx:id="timeLabel" alignment="BOTTOM_LEFT" layoutX="472.0" layoutY="10.0" prefHeight="43.0" prefWidth="58.0">
+         <Label fx:id="timeValueLabel" alignment="BOTTOM_LEFT" layoutX="472.0" layoutY="10.0" prefHeight="43.0" prefWidth="58.0">
             <font>
                <Font size="13.0" />
             </font>
@@ -47,7 +49,7 @@
                <Insets bottom="10.0" left="10.0" right="10.0" top="18.0" />
             </padding>
          </Label>
-         <Label fx:id="timeLabel1" alignment="BOTTOM_LEFT" layoutX="568.0" layoutY="10.0" prefHeight="43.0" prefWidth="58.0" text="Score:">
+         <Label fx:id="scoreTextLabel" alignment="BOTTOM_LEFT" layoutX="568.0" layoutY="10.0" prefHeight="43.0" prefWidth="58.0" text="Score:">
             <font>
                <Font size="13.0" />
             </font>
@@ -55,7 +57,7 @@
                <Insets bottom="10.0" left="10.0" right="10.0" top="18.0" />
             </padding>
          </Label>
-         <Label fx:id="timeLabel11" alignment="BOTTOM_LEFT" layoutX="626.0" layoutY="10.0" prefHeight="43.0" prefWidth="58.0">
+         <Label fx:id="scoreValueLabel" alignment="BOTTOM_LEFT" layoutX="626.0" layoutY="10.0" prefHeight="43.0" prefWidth="58.0">
             <font>
                <Font size="13.0" />
             </font>
@@ -68,47 +70,44 @@
    <left>
       <VBox spacing="10">
          <!-- Componentes para selecionar palavra -->
-         <Label fx:id="palavraLegendaLabel" text="Palavra" visible="false" />
-         <TextField fx:id="palavraTextField" prefHeight="26.0" prefWidth="149.0" visible="false" />
-         <Label fx:id="rowLabel" text="Linha" visible="false" />
-         <TextField fx:id="rowTextField" prefHeight="26.0" prefWidth="64.0" visible="false" />
-         <Label fx:id="colLabel" text="Coluna" visible="false" />
-         <TextField fx:id="colTextField" prefHeight="26.0" prefWidth="64.0" visible="false" />
-         <Label fx:id="directionLegendaLabel" text="Direção inicial" visible="false" />
-         <TextField fx:id="directionTextField" prefHeight="26.0" prefWidth="150.0" visible="false" />
-         <Button fx:id="selecionarButton" mnemonicParsing="false" onMouseClicked="#onSelecionarClicked" text="Selecionar" visible="false" />
+         <Label fx:id="palavraLegendaLabel" prefHeight="17.0" prefWidth="55.0" text="Palavra" />
+         <TextField fx:id="palavraTextField" prefHeight="26.0" prefWidth="149.0" />
+         <HBox alignment="TOP_CENTER" prefHeight="22.0" prefWidth="200.0">
+            <children>
+               <Label fx:id="rowLabel" alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Linha" HBox.hgrow="ALWAYS" />
+               <Label fx:id="colLabel" alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Coluna" HBox.hgrow="ALWAYS" />
+            </children>
+         </HBox>
+         <HBox prefHeight="28.0" prefWidth="200.0">
+            <children>
+               <TextField fx:id="rowTextField" prefHeight="26.0" prefWidth="80.0" HBox.hgrow="ALWAYS" />
+               <TextField fx:id="colTextField" prefHeight="26.0" prefWidth="80.0" HBox.hgrow="ALWAYS" />
+            </children>
+         </HBox>
+         <Label fx:id="directionLegendaLabel" text="Direção inicial" />
+         <ComboBox fx:id="directionDropdown" prefWidth="150.0" promptText="Direção">
+            <items>
+               <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="North" />
+                  <String fx:value="South" />
+                  <String fx:value="East" />
+                  <String fx:value="West" />
+                  <String fx:value="NorthEast" />
+                  <String fx:value="NorthWest" />
+                  <String fx:value="SouthEast" />
+                  <String fx:value="SouthWest" />
+               </FXCollections>
+            </items>
+         </ComboBox>
+         <Button fx:id="selecionarButton" mnemonicParsing="false" onMouseClicked="#onSelecionarClicked" prefHeight="50.0" prefWidth="200.0" text="Selecionar" VBox.vgrow="ALWAYS">
+            <font>
+               <Font size="18.0" />
+            </font></Button>
          <BorderPane.margin>
             <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
          </BorderPane.margin>
       </VBox>
    </left>
-   <right>
-      <VBox spacing="10">
-         <Label fx:id="firstWord" alignment="CENTER" prefHeight="18.0" prefWidth="138.0">
-            <VBox.margin>
-               <Insets right="10.0" top="30.0" />
-            </VBox.margin>
-            <font>
-               <Font size="24.0" />
-            </font></Label>
-         <Label fx:id="secondWord" alignment="CENTER" prefHeight="18.0" prefWidth="138.0">
-            <VBox.margin>
-               <Insets right="10.0" />
-            </VBox.margin>
-            <font>
-               <Font size="24.0" />
-            </font></Label>
-         <Label fx:id="thirdWord" alignment="CENTER" prefHeight="18.0" prefWidth="138.0">
-            <font>
-               <Font size="24.0" />
-            </font></Label>
-         <Label fx:id="palavraLabel" alignment="CENTER" layoutX="10.0" layoutY="132.0" prefHeight="18.0" prefWidth="138.0">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-      </VBox>
-   </right>
    <center>
       <GridPane fx:id="tabuleiroGridPane" gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="320.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -157,4 +156,13 @@
          </children>
       </GridPane>
    </center>
+   <right>
+      <VBox fx:id="wordsVBox" maxHeight="-Infinity" prefHeight="320.0" prefWidth="138.0" spacing="10" BorderPane.alignment="CENTER">
+         <Label fx:id="palavraLabel" alignment="CENTER" layoutX="10.0" layoutY="132.0" prefHeight="0.0" prefWidth="138.0">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+      </VBox>
+   </right>
 </BorderPane>

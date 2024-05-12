@@ -130,6 +130,6 @@ object ZigZag {
   }
 
   def isGameOver(startTime: Long): Boolean = {
-    getElapsedTime(startTime) > 30000
+    getElapsedTime(startTime) > 120000
   }
 }

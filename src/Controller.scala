@@ -1,19 +1,22 @@
 import BoardType._
 import Types.{Board, Direction}
-import Utils.readWordsAndPositions
 import ZigZag._
 import javafx.fxml.FXML
-import javafx.scene.control.{Button, Label, TextField}
-import javafx.scene.layout.GridPane
+import javafx.scene.control.{Button, ComboBox, Label, TextField}
+import javafx.scene.layout.{GridPane, VBox}
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.animation.{Animation, KeyFrame, Timeline}
+import javafx.geometry.Pos
 import javafx.util.Duration
 
 class Controller {
   private var board: Board = _
 
   val startTime = System.currentTimeMillis()
+  val (words, positions) = Utils.readWordsAndPositions("words.txt")
+  var score = 0
+
 
   @FXML
   private var reiniciarJogoButton: Button = _
@@ -32,7 +35,7 @@ class Controller {
   @FXML
   private var colTextField: TextField = _
   @FXML
-  private var directionTextField: TextField = _
+  private var directionDropdown: ComboBox[String] = _
   @FXML
   private var palavraLegendaLabel: Label = _
   @FXML
@@ -44,13 +47,25 @@ class Controller {
   @FXML
   private var iniciarJogoButton: Button = _
   @FXML
-  private var firstWord: Label = _
+  private var wordsVBox: VBox = _
   @FXML
-  private var secondWord: Label = _
+  private var timeTextLabel: Label = _
   @FXML
-  private var thirdWord: Label = _
+  private var timeValueLabel: Label = _
   @FXML
-  private var timeLabel: Label = _
+  private var scoreTextLabel: Label = _
+  @FXML
+  private var scoreValueLabel: Label = _
+
+
+  def initialize(): Unit = {
+    toggleTextFieldsAndButton(false)
+    selecionarPalavraButton.setVisible(false)
+    reiniciarJogoButton.setVisible(false)
+    palavraLabel.setVisible(false)
+    timeTextLabel.setVisible(false)
+    scoreTextLabel.setVisible(false)
+  }
 
   // Crie um Timeline como membro da classe
   lazy val timeline: Timeline = new Timeline()
@@ -80,16 +95,19 @@ class Controller {
     timeline.stop()
 
     // Defina o KeyFrame do Timeline
+    timeTextLabel.setVisible(true)
     timeline.getKeyFrames.setAll(new KeyFrame(Duration.seconds(1), _ => {
       val elapsedTime = getElapsedTime(startTime)
-      val timeRemaining = 30000 - elapsedTime
+      val timeRemaining = 120000 - elapsedTime
       if (isGameOver(startTime)) {
         timeline.stop()
-        timeLabel.setText("Acabou!")
+        timeValueLabel.setText("Acabou!")
       } else {
-        timeLabel.setText(timeRemaining / 1000 + "s")
+        timeValueLabel.setText(timeRemaining / 1000 + "s")
       }
     }))
+    scoreTextLabel.setVisible(true)
+    scoreValueLabel.setText(score.toString)
 
     timeline.setCycleCount(Animation.INDEFINITE)
     timeline.play()
@@ -111,30 +129,28 @@ class Controller {
     val row = rowTextField.getText.trim.toInt // Suponha que rowTextField é o campo de texto para a linha
     val column = colTextField.getText.trim.toInt // Suponha que columnTextField é o campo de texto para a coluna
     val coord2D = (row, column)
-    val directionString = directionTextField.getText
+    val directionString = directionDropdown.getSelectionModel().getSelectedItem()
     val direction = Direction.withName(directionString)
 
     // Verifica se a palavra está no tabuleiro
     if (play(board, word, coord2D, direction, GUI)) {
-      val (words, positions) = Utils.readWordsAndPositions("words.txt")
       val wordIndex = words.indexOf(word)
       if (wordIndex != -1 && positions.length > wordIndex) {
         val wordPositions = positions(wordIndex)
         paintWordOnBoard(word, wordPositions)
-        //pinta a firstWord, secondWord ou thirdWord
-        if (word == firstWord.getText()) {
-          firstWord.setTextFill(Color.LIMEGREEN)
-        } else if (word == secondWord.getText()) {
-          secondWord.setTextFill(Color.LIMEGREEN)
-        } else if (word == thirdWord.getText()) {
-          thirdWord.setTextFill(Color.LIMEGREEN)
+        // Pinta a label com a word correspondente (loop até size - 1 pois a última é o texto de Errado)
+        for (i <- 0 until wordsVBox.getChildren.size() - 1) {
+          val label = wordsVBox.getChildren.get(i).asInstanceOf[Label]
+          if (label.getText == word) {
+            label.setTextFill(Color.LIMEGREEN)
+          }
         }
       }
-    }
-    else {
+    } else {
       palavraLabel.setText("Errado")
       palavraLabel.setStyle("-fx-text-fill: red")
       palavraLabel.setVisible(true)
+      score -= 100
     }
     // Mantenha os campos de texto e o botão visíveis após um erro
     toggleTextFieldsAndButton(true)
@@ -156,7 +172,7 @@ class Controller {
     selecionarButton.setVisible(b)
     rowTextField.setVisible(b)
     colTextField.setVisible(b)
-    directionTextField.setVisible(b)
+    directionDropdown.setVisible(b)
     palavraLegendaLabel.setVisible(b)
     rowLabel.setVisible(b)
     colLabel.setVisible(b)
@@ -164,20 +180,21 @@ class Controller {
     palavraTextField.clear()
     rowTextField.clear()
     colTextField.clear()
-    directionTextField.clear()
+    directionDropdown.getSelectionModel.clearSelection()
   }
 
   // Inicializa as palavras
   def initializeWords(): Unit = {
-    val (words, positions) = readWordsAndPositions("words.txt")
-    firstWord.setText(words(0))
-    secondWord.setText(words(1))
-    thirdWord.setText(words(2))
-    firstWord.setVisible(true)
-    secondWord.setVisible(true)
-    thirdWord.setVisible(true)
-    firstWord.setTextFill(Color.BLACK)
-    secondWord.setTextFill(Color.BLACK)
-    thirdWord.setTextFill(Color.BLACK)
+    for (i <- words.indices) {
+      val label = new Label(words(i))
+      label.setAlignment(Pos.CENTER)
+      label.setLayoutX(10.0)
+      label.setLayoutY(132.0)
+      label.setPrefSize(138.0, 18.0)
+      label.setFont(new Font(24.0))
+      label.setVisible(true)
+      label.setTextFill(Color.BLACK)
+      wordsVBox.getChildren().add(i, label) // set at that index to push the other label to the end
+    }
   }
 }

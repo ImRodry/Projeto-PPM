@@ -7,7 +7,7 @@ import scala.io.StdIn.readLine
 
 object TextUI {
   val (boardWidth, boardHeight) = getBoardSize()
-  val (correctWord, incorrectWord) = (500, 100)
+  val (correctWord, incorrectWord) = (500, -100)
 
   @tailrec
   def getBoardSize(asked: Boolean = false): (Int, Int) = {
@@ -39,13 +39,6 @@ object TextUI {
     val startCoord = (start.head.toInt, start.last.toInt)
     val directionEnum = Direction.withName(direction)
 
-    if (ZigZag.isGameOver(startTime)) {
-      println("Acabou o tempo!")
-      println("Pontuação final: " + points)
-      printBoard(board)
-      return -points
-    }
-
     if (ZigZag.play(board, word, startCoord, directionEnum, Text)) {
       println("A palavra está correta!")
       correctWord
@@ -58,6 +51,11 @@ object TextUI {
   def main(args: Array[String]): Unit = {
     val startTime = System.currentTimeMillis()
     def runGame(board: Board, points: Int): Unit = {
+      if (ZigZag.isGameOver(startTime)) {
+        println("Acabou o tempo!")
+        println("Pontuação final: " + points)
+        return
+      }
       println("Pontuação: " + points)
       mainMenu()
       getInput("Escolha uma opção") match {
