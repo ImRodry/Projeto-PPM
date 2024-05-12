@@ -130,6 +130,9 @@ class Controller {
 
   // Seleção do botão de "Selecionar"
   def onSelecionarClicked(): Unit = {
+    if (isGameOver(startTime, words, checkedWords)) {
+      sendAlertAndEnd("Acabou o tempo!")
+    }
     palavraLabel.setVisible(false)
     val word = palavraTextField.getText().toUpperCase()
     val row = rowTextField.getText.trim.toInt       // extrai a linha
