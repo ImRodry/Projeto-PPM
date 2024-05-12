@@ -149,6 +149,7 @@ class Controller {
       palavraLabel.setVisible(true)
       score -= 100
     }
+    scoreValueLabel.setText(score.toString)
     toggleTextFieldsAndButton(true)
   }
 
